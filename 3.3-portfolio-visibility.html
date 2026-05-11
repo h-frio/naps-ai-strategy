@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio Visibility — NAPS AI Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f3b5f;
+  --navy-2:#174c73;
+  --green:#8dd63f;
+  --teal:#bfe8f3;
+  --sky:#dff4fb;
+  --bg:#f5f7f8;
+  --surface:#ffffff;
+  --surface-2:#f9fbfc;
+  --text:#173a56;
+  --muted:#4f6778;
+  --line:#d7e8ef;
+  --line-2:#c6dbe5;
+  --glow:rgba(141,214,63,.18);
+  --shadow:0 16px 42px rgba(17,56,86,.08);
+  --shadow-lg:0 24px 56px rgba(17,56,86,.12);
+  --delivered:#2d8a56;
+  --execution:#1d5f95;
+  --portfolio:#6a4bb3;
+  --validation:#b07500;
+  --hold:#9f3e3e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+a{text-decoration:none;color:inherit}
+img,svg{display:block;max-width:100%}
+button,input,select{font:inherit}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.85;background:radial-gradient(circle at 16% 18%,rgba(191,232,243,.8) 0 10px,transparent 11px),radial-gradient(circle at 28% 72%,rgba(191,232,243,.65) 0 8px,transparent 9px),radial-gradient(circle at 55% 10%,rgba(191,232,243,.55) 0 9px,transparent 10px),linear-gradient(120deg,transparent 0 18%,rgba(191,232,243,.22) 18.2% 18.5%,transparent 18.7% 100%),linear-gradient(60deg,transparent 0 31%,rgba(191,232,243,.16) 31.2% 31.5%,transparent 31.7% 100%)}
+body::after{content:"";position:fixed;left:-5%;bottom:-8%;width:58vw;height:60vh;pointer-events:none;opacity:.36;background:linear-gradient(60deg,transparent 0 49.3%,var(--line) 49.4% 49.8%,transparent 49.9%),linear-gradient(-60deg,transparent 0 49.3%,var(--line) 49.4% 49.8%,transparent 49.9%),radial-gradient(circle at 25% 50%,var(--teal) 0 7px,transparent 8px),radial-gradient(circle at 75% 50%,var(--teal) 0 7px,transparent 8px);transform:rotate(-2deg)}
+
+.nav{position:sticky;top:0;z-index:20;background:rgba(245,247,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1360px;margin:auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:16px}
+.brand h1{font-size:1.02rem;font-weight:800;color:var(--navy)}
+.brand p{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:var(--navy);color:#fff;font-size:.86rem;font-weight:700;cursor:pointer;border:none}
+.phase-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#eef8fc;border:1px solid var(--line);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--navy-2)}
+.phase-pill::before{content:"";width:8px;height:8px;border-radius:50%;background:#2b88a3}
+
+.hero{max-width:1360px;margin:0 auto;padding:54px 28px 34px;text-align:center}
+.kicker{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;background:#eef8fc;border:1px solid var(--line);font-size:.76rem;font-weight:700;color:var(--navy);letter-spacing:.07em;text-transform:uppercase;margin-bottom:18px}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 8px var(--glow)}
+.hero h2{font-family:"Source Serif 4",serif;font-size:clamp(2.2rem,4vw,4.2rem);line-height:1.03;color:var(--navy);max-width:980px;margin:0 auto 18px}
+.hero p{max-width:860px;color:var(--muted);font-size:1.04rem;line-height:1.78;margin:0 auto 30px}
+.stats{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 22px;min-width:154px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2b88a3,#2c7da6)}
+.stat-num{font-size:1.9rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.stat-label{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:4px}
+
+section{max-width:1360px;margin:0 auto;padding:18px 28px 42px}
+.section-head{text-align:center;max-width:840px;margin:0 auto 24px}
+.section-kicker{font-size:.74rem;text-transform:uppercase;letter-spacing:.11em;color:var(--navy-2);font-weight:800;margin-bottom:8px}
+.section-title{font-family:"Source Serif 4",serif;font-size:clamp(1.7rem,3vw,2.8rem);line-height:1.1;color:var(--navy);margin-bottom:10px}
+.section-desc{font-size:1rem;color:var(--muted);line-height:1.7}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:var(--shadow)}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.kpi-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0f3b5f,#2b88a3)}
+.kpi-card h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px}
+.kpi-card .big{font-size:2rem;font-weight:800;color:var(--navy);line-height:1;margin-bottom:8px;font-variant-numeric:tabular-nums}
+.kpi-card p{font-size:.82rem;color:var(--muted);line-height:1.55}
+
+.top-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+.panel-title{font-size:1.08rem;font-weight:800;color:var(--navy);margin-bottom:12px}
+.status-stack{display:grid;gap:12px}
+.status-row{display:grid;grid-template-columns:160px 1fr 52px;gap:12px;align-items:center}
+.status-row strong{font-size:.88rem;color:var(--navy)}
+.status-row span{font-size:.8rem;color:var(--muted);text-align:right;font-weight:700}
+.bar-bg{height:12px;background:#eef5f8;border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;border-radius:999px}
+.b-delivered{background:linear-gradient(90deg,#2d8a56,#56b77b)}
+.b-execution{background:linear-gradient(90deg,#1d5f95,#4f8fca)}
+.b-portfolio{background:linear-gradient(90deg,#6a4bb3,#9b79df)}
+.b-validation{background:linear-gradient(90deg,#b07500,#d8a741)}
+.b-hold{background:linear-gradient(90deg,#9f3e3e,#d06f6f)}
+.solution-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.solution-card{padding:14px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#f8fbfc)}
+.solution-card h5{font-size:.88rem;color:var(--navy);margin-bottom:6px}
+.solution-card p{font-size:.8rem;color:var(--muted);line-height:1.55;margin-bottom:8px}
+.solution-card .count{font-size:1.2rem;font-weight:800;color:var(--navy)}
+
+.filters{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.filter-box label{display:block;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.filter-box select,.filter-box input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--text)}
+
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:20px;background:#fff}
+table{width:100%;border-collapse:collapse;min-width:1400px}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;font-size:.83rem;vertical-align:top}
+th{background:#f1f8fb;color:var(--navy);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;position:sticky;top:0;z-index:1}
+tr:hover td{background:#fbfdff}
+.case-name{font-weight:800;color:var(--navy);margin-bottom:4px}
+.case-sub{font-size:.78rem;color:var(--muted);line-height:1.45}
+.badge{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.st-delivered{background:#e9f8f2;color:#238b55}
+.st-execution{background:#e9f3fb;color:#1d5f95}
+.st-portfolio{background:#ede8f8;color:#5b2fa5}
+.st-validation{background:#fff6e7;color:#b07500}
+.st-hold{background:#f8eaea;color:#9f3e3e}
+.t1{background:#e9f8f2;color:#238b55}
+.t2{background:#e9f3fb;color:#1d5f95}
+.t3{background:#ede8f8;color:#5b2fa5}
+.metric{font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+.tag-wrap{display:flex;flex-wrap:wrap;gap:6px}
+.tag{padding:4px 8px;border-radius:999px;border:1px solid var(--line);background:#f4fafc;color:var(--muted);font-size:.68rem;font-weight:700}
+
+.views-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.bucket-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.bucket{padding:16px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#fff,#f8fbfc);min-height:180px}
+.bucket h4{font-size:.92rem;color:var(--navy);margin-bottom:10px}
+.bucket ul{list-style:none;display:grid;gap:8px}
+.bucket li{padding:10px 12px;border-radius:14px;background:#fbfdff;border:1px solid var(--line);font-size:.8rem;color:var(--muted);line-height:1.5}
+.bucket li strong{display:block;color:var(--navy);font-size:.82rem;margin-bottom:3px}
+
+.milestone-list{display:grid;gap:10px}
+.milestone{display:flex;gap:14px;padding:14px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#f8fbfc)}
+.milestone-icon{width:40px;height:40px;border-radius:12px;background:#eef8fc;border:1px solid var(--line);display:grid;place-items:center;flex:0 0 auto}
+.milestone-icon svg{width:20px;height:20px}
+.milestone h5{font-size:.9rem;color:var(--navy);margin-bottom:4px}
+.milestone p{font-size:.81rem;color:var(--muted);line-height:1.55}
+
+.footer-note{max-width:1360px;margin:0 auto;padding:0 28px 44px;text-align:center;font-size:.84rem;color:var(--muted)}
+
+@media(max-width:1150px){
+  .kpi-grid{grid-template-columns:repeat(3,1fr)}
+  .top-grid,.views-grid{grid-template-columns:1fr}
+  .filters{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .hero{padding:36px 18px 28px}
+  section{padding:16px 18px 34px}
+  .kpi-grid,.solution-grid,.bucket-grid,.filters{grid-template-columns:1fr}
+  .status-row{grid-template-columns:120px 1fr 42px}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <svg width="42" height="42" viewBox="0 0 64 64" aria-label="Bayer logo">
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8dd63f"/><stop offset="1" stop-color="#bfe8f3"/></linearGradient></defs>
+        <circle cx="32" cy="32" r="28" fill="none" stroke="url(#g1)" stroke-width="4"/>
+        <circle cx="32" cy="32" r="22" fill="none" stroke="#0f3b5f" stroke-width="2" opacity=".38"/>
+        <path d="M32 10v44M10 32h44" stroke="#0f3b5f" stroke-width="2.8"/>
+      </svg>
+      <div>
+        <h1>NAPS AI Strategy</h1>
+        <p>North American Product Supply</p>
+    <div style="margin-left:auto"><button onclick="backToStrategy()" style="display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;background:#0f3b5f;color:#fff;border:none;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">&#8592; Back to Strategy</button></div>
+  </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div class="phase-pill">Phase 2 — Portfolio Visibility</div>
+      <button class="back-btn" onclick="history.back()">← Back to Strategy</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="kicker">Portfolio Visibility</div>
+  <h2>A single place to see <span style="color:var(--navy-2)">every AI use case</span> across validation, portfolio, execution, and delivered value.</h2>
+  <p>This portfolio page gives the CoE and Innovation Board a shared operational view of all NAPS use cases — what solution was adopted, where each initiative sits in the lifecycle, what benefit is expected or realized, and which items require attention.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">24</div><div class="stat-label">Total use cases</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">Delivered</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">In execution</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">In portfolio</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">In validation</div></div>
+  </div>
+</div>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Portfolio health</div>
+    <div class="section-title">Key indicators to track the portfolio</div>
+    <div class="section-desc">These top-line indicators help leadership understand throughput, realized value, and where the current bottlenecks are emerging.</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><h4>Realized benefit</h4><div class="big">6,420 h</div><p>Estimated annual hours saved from currently delivered use cases.</p></div>
+    <div class="kpi-card"><h4>Active pipeline value</h4><div class="big">$1.8M</div><p>Estimated annualized benefit across execution and approved portfolio items.</p></div>
+    <div class="kpi-card"><h4>Avg. cycle time</h4><div class="big">7.4 w</div><p>Average time from approval to first usable release across delivered use cases.</p></div>
+    <div class="kpi-card"><h4>Adoption rate</h4><div class="big">74%</div><p>Average active usage across delivered solutions where adoption is measurable.</p></div>
+    <div class="kpi-card"><h4>At-risk items</h4><div class="big">4</div><p>Use cases currently flagged due to capacity, dependency, or sponsor issues.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="top-grid">
+    <div class="card">
+      <div class="panel-title">Portfolio by lifecycle stage</div>
+      <div class="status-stack">
+        <div class="status-row"><strong>Delivered</strong><div class="bar-bg"><div class="bar-fill b-delivered" style="width:33%"></div></div><span>8</span></div>
+        <div class="status-row"><strong>Execution</strong><div class="bar-bg"><div class="bar-fill b-execution" style="width:25%"></div></div><span>6</span></div>
+        <div class="status-row"><strong>Portfolio</strong><div class="bar-bg"><div class="bar-fill b-portfolio" style="width:29%"></div></div><span>7</span></div>
+        <div class="status-row"><strong>Validation</strong><div class="bar-bg"><div class="bar-fill b-validation" style="width:13%"></div></div><span>3</span></div>
+        <div class="status-row"><strong>On hold</strong><div class="bar-bg"><div class="bar-fill b-hold" style="width:8%"></div></div><span>2</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="panel-title">Solutions adopted across the portfolio</div>
+      <div class="solution-grid">
+        <div class="solution-card"><h5>Generative AI assistants</h5><p>Chat, summarization, guided drafting, retrieval-augmented workflows.</p><div class="count">7 use cases</div></div>
+        <div class="solution-card"><h5>Automation</h5><p>Power Automate, workflow orchestration, task handoffs, data movement.</p><div class="count">6 use cases</div></div>
+        <div class="solution-card"><h5>Analytics & dashboards</h5><p>Power BI, anomaly monitoring, operational insights, KPI reporting.</p><div class="count">5 use cases</div></div>
+        <div class="solution-card"><h5>Agentic / advanced AI</h5><p>Multi-step AI workflows, copilots, decision support, orchestration.</p><div class="count">4 use cases</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Working portfolio</div>
+    <div class="section-title">Use case register</div>
+    <div class="section-desc">A working view of all initiatives with status, adopted solution, expected or realized benefit, and governance signals.</div>
+  </div>
+
+  <div class="card" style="margin-bottom:18px">
+    <div class="filters">
+      <div class="filter-box">
+        <label>Status</label>
+        <select>
+          <option>All statuses</option>
+          <option>Delivered</option>
+          <option>Execution</option>
+          <option>Portfolio</option>
+          <option>Validation</option>
+        </select>
+      </div>
+      <div class="filter-box">
+        <label>Solution type</label>
+        <select>
+          <option>All solution types</option>
+          <option>Generative AI</option>
+          <option>Automation</option>
+          <option>Analytics</option>
+          <option>Agentic AI</option>
+        </select>
+      </div>
+      <div class="filter-box">
+        <label>Business area</label>
+        <select>
+          <option>All areas</option>
+          <option>Seed Manufacturing</option>
+          <option>Site Support</option>
+          <option>Product Support</option>
+          <option>Commercial Ops</option>
+        </select>
+      </div>
+      <div class="filter-box">
+        <label>Tier</label>
+        <select>
+          <option>All tiers</option>
+          <option>Tier 1</option>
+          <option>Tier 2</option>
+          <option>Tier 3</option>
+        </select>
+      </div>
+      <div class="filter-box">
+        <label>Search</label>
+        <input type="text" placeholder="Search by use case or sponsor" />
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Use case</th>
+            <th>Status</th>
+            <th>Tier</th>
+            <th>Business area</th>
+            <th>Solution adopted</th>
+            <th>Primary benefit</th>
+            <th>Benefit size</th>
+            <th>Sponsor / owner</th>
+            <th>Current next step</th>
+            <th>Risk / note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="case-name">Dealer close-out automation</div><div class="case-sub">Automates close-out workflow, document checks, and exception routing.</div></td>
+            <td><span class="badge st-delivered">Delivered</span></td>
+            <td><span class="badge t1">T1</span></td>
+            <td>Commercial Ops</td>
+            <td><div class="tag-wrap"><span class="tag">Automation</span><span class="tag">Power Automate</span></div></td>
+            <td>Cycle time reduction</td>
+            <td><span class="metric">1,240 h / yr</span></td>
+            <td>North America Sales Ops</td>
+            <td>Scale to additional regions</td>
+            <td>Monitor adoption consistency</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">QC deviation summarizer</div><div class="case-sub">Summarizes deviation logs and proposes draft narratives for QA review.</div></td>
+            <td><span class="badge st-execution">Execution</span></td>
+            <td><span class="badge t2">T2</span></td>
+            <td>Seed Manufacturing</td>
+            <td><div class="tag-wrap"><span class="tag">Generative AI</span><span class="tag">RAG assistant</span></div></td>
+            <td>Review effort reduction</td>
+            <td><span class="metric">620 h / yr</span></td>
+            <td>Quality Operations Lead</td>
+            <td>UAT and governance sign-off</td>
+            <td>Validation of generated outputs</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Seed anomaly detection</div><div class="case-sub">Detects yield and process anomalies through advanced analytics.</div></td>
+            <td><span class="badge st-execution">Execution</span></td>
+            <td><span class="badge t2">T2</span></td>
+            <td>Seed Manufacturing</td>
+            <td><div class="tag-wrap"><span class="tag">Analytics</span><span class="tag">ML monitoring</span></div></td>
+            <td>Yield protection</td>
+            <td><span class="metric">$540k / yr</span></td>
+            <td>Plant Operations Director</td>
+            <td>Finish model pilot at 2 sites</td>
+            <td>Needs more stable source data</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Shift notes assistant</div><div class="case-sub">Helps operators summarize shift events and handoffs.</div></td>
+            <td><span class="badge st-portfolio">Portfolio</span></td>
+            <td><span class="badge t1">T1</span></td>
+            <td>Site Support</td>
+            <td><div class="tag-wrap"><span class="tag">Generative AI</span><span class="tag">Copilot</span></div></td>
+            <td>Documentation consistency</td>
+            <td><span class="metric">280 h / yr</span></td>
+            <td>Site Excellence Lead</td>
+            <td>Rescope to narrower pilot</td>
+            <td>Business case still too broad</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Digital twin scenario engine</div><div class="case-sub">Simulates production decisions and what-if scenarios across multiple constraints.</div></td>
+            <td><span class="badge st-portfolio">Portfolio</span></td>
+            <td><span class="badge t3">T3</span></td>
+            <td>Seed Manufacturing</td>
+            <td><div class="tag-wrap"><span class="tag">Advanced AI</span><span class="tag">Simulation</span></div></td>
+            <td>Optimization potential</td>
+            <td><span class="metric">$900k+ / yr</span></td>
+            <td>Operations VP</td>
+            <td>Prepare stage-gate case</td>
+            <td>Architecture and budget dependency</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">GenAI contract review agent</div><div class="case-sub">Supports contract review prep with summarization and clause detection.</div></td>
+            <td><span class="badge st-validation">Validation</span></td>
+            <td><span class="badge t3">T3</span></td>
+            <td>Product Support</td>
+            <td><div class="tag-wrap"><span class="tag">Agentic AI</span><span class="tag">LLM workflow</span></div></td>
+            <td>Cycle time reduction</td>
+            <td><span class="metric">TBD</span></td>
+            <td>Legal Operations</td>
+            <td>Compliance and scope validation</td>
+            <td>High legal risk until reviewed</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Ops dashboard refresh</div><div class="case-sub">Rebuilds fragmented operational dashboards into a unified KPI layer.</div></td>
+            <td><span class="badge st-delivered">Delivered</span></td>
+            <td><span class="badge t1">T1</span></td>
+            <td>Site Support</td>
+            <td><div class="tag-wrap"><span class="tag">Analytics</span><span class="tag">Power BI</span></div></td>
+            <td>Decision visibility</td>
+            <td><span class="metric">430 h / yr</span></td>
+            <td>Site Performance Team</td>
+            <td>Track active usage by site</td>
+            <td>Adoption uneven in 1 site</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Maintenance work-order triage</div><div class="case-sub">Classifies and routes maintenance requests based on urgency and category.</div></td>
+            <td><span class="badge st-execution">Execution</span></td>
+            <td><span class="badge t1">T1</span></td>
+            <td>Site Support</td>
+            <td><div class="tag-wrap"><span class="tag">Automation</span><span class="tag">Workflow rules</span></div></td>
+            <td>Response time reduction</td>
+            <td><span class="metric">350 h / yr</span></td>
+            <td>Reliability Manager</td>
+            <td>Finalize testing with technicians</td>
+            <td>Exception routing still maturing</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Seed treatment recipe assistant</div><div class="case-sub">Guides technicians with contextual SOP retrieval and process prompts.</div></td>
+            <td><span class="badge st-portfolio">Portfolio</span></td>
+            <td><span class="badge t2">T2</span></td>
+            <td>Seed Manufacturing</td>
+            <td><div class="tag-wrap"><span class="tag">Generative AI</span><span class="tag">RAG</span></div></td>
+            <td>Quality consistency</td>
+            <td><span class="metric">$180k / yr</span></td>
+            <td>Manufacturing Excellence</td>
+            <td>Assign squad and data prep</td>
+            <td>SOP sources need cleanup</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Field complaint signal mining</div><div class="case-sub">Clusters complaint narratives to identify recurring product support issues.</div></td>
+            <td><span class="badge st-validation">Validation</span></td>
+            <td><span class="badge t2">T2</span></td>
+            <td>Product Support</td>
+            <td><div class="tag-wrap"><span class="tag">Analytics</span><span class="tag">Text mining</span></div></td>
+            <td>Early issue detection</td>
+            <td><span class="metric">TBD</span></td>
+            <td>Product Support Director</td>
+            <td>Validate data completeness</td>
+            <td>Case history fragmented</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Invoice exception assistant</div><div class="case-sub">Flags mismatches and drafts exception notes for AP teams.</div></td>
+            <td><span class="badge st-delivered">Delivered</span></td>
+            <td><span class="badge t1">T1</span></td>
+            <td>Commercial Ops</td>
+            <td><div class="tag-wrap"><span class="tag">Automation</span><span class="tag">GenAI assist</span></div></td>
+            <td>Manual effort reduction</td>
+            <td><span class="metric">510 h / yr</span></td>
+            <td>Finance Ops</td>
+            <td>Expand exception categories</td>
+            <td>Need stronger adoption dashboard</td>
+          </tr>
+          <tr>
+            <td><div class="case-name">Cross-site knowledge assistant</div><div class="case-sub">Provides searchable knowledge across lessons learned, SOPs, and troubleshooting guides.</div></td>
+            <td><span class="badge st-portfolio">Portfolio</span></td>
+            <td><span class="badge t2">T2</span></td>
+            <td>Site Support</td>
+            <td><div class="tag-wrap"><span class="tag">Generative AI</span><span class="tag">Knowledge assistant</span></div></td>
+            <td>Faster problem resolution</td>
+            <td><span class="metric">$260k / yr</span></td>
+            <td>CoE + Site Champions</td>
+            <td>Prioritize source repositories</td>
+            <td>Ownership model still open</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Working views</div>
+    <div class="section-title">Additional portfolio lenses</div>
+    <div class="section-desc">Useful views for leadership reviews, board discussions, and monthly CoE portfolio management.</div>
+  </div>
+  <div class="views-grid">
+    <div class="card">
+      <div class="panel-title">Portfolio buckets for decision-making</div>
+      <div class="bucket-grid">
+        <div class="bucket">
+          <h4>Delivered & scaling</h4>
+          <ul>
+            <li><strong>Dealer close-out automation</strong>Ready to expand to additional regions.</li>
+            <li><strong>Ops dashboard refresh</strong>Adoption monitoring needed before broader rollout.</li>
+            <li><strong>Invoice exception assistant</strong>Next release focused on broader exception logic.</li>
+          </ul>
+        </div>
+        <div class="bucket">
+          <h4>Execution focus</h4>
+          <ul>
+            <li><strong>Seed anomaly detection</strong>Needs stable pilot data from 2 sites.</li>
+            <li><strong>QC deviation summarizer</strong>Pending UAT and governance sign-off.</li>
+            <li><strong>Maintenance work-order triage</strong>Operational exception handling in final test.</li>
+          </ul>
+        </div>
+        <div class="bucket">
+          <h4>Portfolio candidates</h4>
+          <ul>
+            <li><strong>Digital twin scenario engine</strong>High-value, but must pass stage-gate case.</li>
+            <li><strong>Cross-site knowledge assistant</strong>Strong pull, but source governance unclear.</li>
+            <li><strong>Seed treatment recipe assistant</strong>Good fit once SOP cleanup is complete.</li>
+          </ul>
+        </div>
+        <div class="bucket">
+          <h4>Validation / rethink</h4>
+          <ul>
+            <li><strong>GenAI contract review agent</strong>Risk-heavy; validate legal path first.</li>
+            <li><strong>Field complaint signal mining</strong>Data quality must improve before approval.</li>
+            <li><strong>Shift notes assistant</strong>Needs a tighter pilot scope and clearer KPI.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="panel-title">What leadership should review each month</div>
+      <div class="milestone-list">
+        <div class="milestone"><div class="milestone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><path d="M3 12h18"/><path d="M12 3v18"/></svg></div><div><h5>Portfolio inflow</h5><p>How many new use cases entered validation, how many cleared triage, and whether the pipeline is getting healthier or noisier.</p></div></div>
+        <div class="milestone"><div class="milestone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M19 9l-5 5-4-4-3 3"/></svg></div><div><h5>Value realization</h5><p>Whether delivered use cases are actually generating the promised benefit — time saved, quality improved, throughput gained, or risk reduced.</p></div></div>
+        <div class="milestone"><div class="milestone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><div><h5>Stage aging</h5><p>Which items are stuck too long in validation, portfolio, or execution, and what decision or dependency is blocking progress.</p></div></div>
+        <div class="milestone"><div class="milestone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 18v3"/></svg></div><div><h5>Solution pattern reuse</h5><p>How often the program is reusing known solution patterns versus inventing net-new approaches, which affects speed, risk, and scale potential.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-note">Portfolio Visibility · NAPS AI Strategy · Phase 2 — Intake and Portfolio Transparency</div>
+<script>
+function backToStrategy(){
+  if (window.opener) {
+    // Opened as popup from index — close this window and return focus to opener
+    window.close();
+  } else {
+    // Opened directly — navigate to index
+    window.location.href = '0-naps-ai-strategy.html';
+  }
+}
+</script>
+</body>
+</html>

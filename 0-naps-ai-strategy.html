@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NAPS AI Strategy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:#0f3b5f; --navy-2:#174c73; --green:#8dd63f; --teal:#bfe8f3;
+      --sky:#dff4fb; --bg:#f5f7f8; --surface:#ffffff; --surface-2:#f9fbfc;
+      --text:#173a56; --muted:#4f6778; --line:#d7e8ef; --line-2:#c6dbe5;
+      --glow:rgba(141,214,63,.18); --r:22px;
+      --shadow:0 16px 42px rgba(17,56,86,.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+    a{text-decoration:none;color:inherit}
+    img,svg{display:block;max-width:100%}
+    button{font:inherit}
+    body::before{
+      content:"";position:fixed;inset:0;pointer-events:none;opacity:.85;
+      background:
+        radial-gradient(circle at 16% 18%,rgba(191,232,243,.8) 0 10px,transparent 11px),
+        radial-gradient(circle at 28% 72%,rgba(191,232,243,.65) 0 8px,transparent 9px),
+        radial-gradient(circle at 55% 10%,rgba(191,232,243,.55) 0 9px,transparent 10px),
+        linear-gradient(120deg,transparent 0 18%,rgba(191,232,243,.22) 18.2% 18.5%,transparent 18.7% 100%),
+        linear-gradient(60deg,transparent 0 31%,rgba(191,232,243,.16) 31.2% 31.5%,transparent 31.7% 100%);
+    }
+    body::after{
+      content:"";position:fixed;left:-5%;bottom:-8%;width:58vw;height:60vh;pointer-events:none;opacity:.36;
+      background:
+        linear-gradient(60deg,transparent 0 49.3%,var(--line) 49.4% 49.8%,transparent 49.9%),
+        linear-gradient(-60deg,transparent 0 49.3%,var(--line) 49.4% 49.8%,transparent 49.9%),
+        radial-gradient(circle at 25% 50%,var(--teal) 0 7px,transparent 8px),
+        radial-gradient(circle at 75% 50%,var(--teal) 0 7px,transparent 8px),
+        radial-gradient(circle at 50% 7%,var(--teal) 0 7px,transparent 8px),
+        radial-gradient(circle at 50% 93%,var(--teal) 0 7px,transparent 8px);
+      transform:rotate(-2deg);
+    }
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:20;background:rgba(245,247,248,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    .nav-inner{max-width:1280px;margin:auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:16px}
+    .brand h1{font-size:1.02rem;font-weight:800;letter-spacing:.01em;color:var(--navy)}
+    .brand p{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .nav-links{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:.9rem;font-weight:600}
+    .nav-links a:hover{color:var(--navy)}
+    .nav-cta{background:var(--navy);color:#fff;padding:10px 16px;border-radius:999px;box-shadow:var(--shadow);font-weight:700;font-size:.88rem}
+    /* HERO */
+    .hero{max-width:1280px;margin:0 auto;padding:60px 28px 64px;position:relative;text-align:center}
+    .kicker{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;background:#eef8fc;border:1px solid var(--line);font-size:.76rem;font-weight:700;color:var(--navy);letter-spacing:.07em;text-transform:uppercase;margin-bottom:18px}
+    .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 8px var(--glow)}
+    .hero h2{font-family:"Source Serif 4",serif;font-size:clamp(2.5rem,4.5vw,4.8rem);line-height:1.02;color:var(--navy);max-width:860px;margin:0 auto 20px}
+    .hero h2 span{color:var(--navy-2)}
+    .mission{max-width:820px;color:var(--muted);font-size:1.08rem;line-height:1.78;margin:0 auto 36px}
+    .stats{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+    .stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 24px;min-width:155px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),#2c7da6)}
+    .stat-num{font-size:2.1rem;font-weight:800;color:var(--navy)}
+    .stat-label{font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:4px}
+    .ai-mission{margin:34px auto 0;max-width:840px;padding:24px 32px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,#eef8fc 0,#f4fbff 100%);border-left:4px solid var(--navy-2);text-align:center}
+    .ai-mission-label{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--navy-2);margin-bottom:10px}
+    .ai-mission-text{font-size:1.08rem;color:var(--text);line-height:1.72;font-style:italic;max-width:760px;margin:0 auto}
+    /* SECTIONS */
+    section{max-width:1280px;margin:0 auto;padding:24px 28px 54px;position:relative}
+    .section-head{text-align:center;max-width:760px;margin:0 auto 26px}
+    .section-kicker{font-size:.74rem;text-transform:uppercase;letter-spacing:.11em;color:var(--navy-2);font-weight:800;margin-bottom:8px}
+    .section-title{font-family:"Source Serif 4",serif;font-size:clamp(1.9rem,3.2vw,3rem);line-height:1.1;color:var(--navy);margin-bottom:10px}
+    .section-desc{font-size:1rem;color:var(--muted);line-height:1.7}
+    /* APPROACH */
+    .approach-shell{background:var(--surface);border:1px solid var(--line);border-radius:32px;padding:28px 22px 24px;box-shadow:var(--shadow);overflow:hidden}
+    .phases{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative}
+    .phases::before{content:"";position:absolute;left:8%;right:8%;top:62px;height:2px;background:linear-gradient(90deg,var(--line),var(--line-2),var(--line));z-index:0}
+    .phase-card{position:relative;z-index:1;padding:12px;border-radius:24px;cursor:pointer;transition:.25s transform,.25s box-shadow,.25s border-color;background:linear-gradient(180deg,#fff,#f9fcfd);border:1px solid transparent}
+    .phase-card:hover{transform:translateY(-3px)}
+    .phase-card.active{box-shadow:0 18px 38px rgba(18,60,92,.10);border-color:var(--line-2)}
+    .phase-top{display:flex;flex-direction:column;align-items:center;text-align:center}
+    .icon-ring{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid currentColor;box-shadow:0 0 0 10px rgba(255,255,255,.85),0 0 0 14px rgba(191,232,243,.46)}
+    .icon-ring svg{width:34px;height:34px}
+    .phase-label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-top:18px;color:var(--navy-2)}
+    .phase-name{font-size:1.18rem;font-weight:800;color:var(--navy);line-height:1.15;min-height:54px;margin-top:6px}
+    .phase-summary{font-size:.94rem;color:var(--muted);line-height:1.55;max-width:220px;margin:12px auto 0;min-height:124px}
+    /* DETAIL PANELS */
+    .detail-panel{margin-top:22px;background:linear-gradient(180deg,#ffffff,#f9fcfd);border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:var(--shadow);display:none}
+    .detail-panel.active{display:block}
+    .dp-head{display:flex;gap:16px;align-items:flex-start;margin-bottom:18px}
+    .dp-icon{width:56px;height:56px;border-radius:16px;background:#eef8fc;display:grid;place-items:center;flex:0 0 auto;border:1px solid var(--line)}
+    .dp-icon svg{width:28px;height:28px}
+    .dp-title{font-size:1.5rem;font-weight:800;color:var(--navy)}
+    .dp-sub{font-size:.98rem;color:var(--muted);margin-top:5px;max-width:850px}
+    .dp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .subcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;min-height:168px;transition:.2s transform,.2s border-color,.2s box-shadow}
+    .subcard:hover{transform:translateY(-2px);border-color:var(--line-2);box-shadow:var(--shadow)}
+    .subcard.link{cursor:pointer}
+    .subcard-title{display:flex;align-items:flex-start;gap:8px;font-size:1rem;font-weight:800;color:var(--navy);line-height:1.25;margin-bottom:8px}
+    .subcard p{font-size:.9rem;color:var(--muted);line-height:1.65}
+    .arrow-badge{margin-left:auto;color:var(--navy-2);font-weight:800;background:#eef8fc;border:1px solid var(--line);border-radius:999px;padding:2px 8px;line-height:1;white-space:nowrap;font-size:.78rem}
+    /* TIERS */
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .card-block{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:var(--shadow)}
+    .card-block h3{font-size:1.35rem;color:var(--navy);margin-bottom:14px}
+    .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .tier{border:1px solid var(--line);border-radius:22px;padding:18px;background:linear-gradient(180deg,#fff,#f9fcfd)}
+    .tier-badge{display:inline-flex;padding:7px 12px;border-radius:999px;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+    .tier h4{font-size:1.24rem;color:var(--navy);margin-bottom:8px}
+    .tier p{font-size:.92rem;color:var(--muted);margin-bottom:12px}
+    .tier dl{display:grid;grid-template-columns:78px 1fr;gap:8px 12px;font-size:.88rem}
+    .tier dt{font-weight:800;color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.06em}
+    .tier dd{color:var(--text)}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .tag{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#f4fafc;color:var(--muted);font-size:.76rem;font-weight:700}
+    /* GOVERNANCE */
+    .gov-list{display:flex;flex-direction:column;gap:12px}
+    .gov{display:flex;gap:14px;border:1px solid var(--line);border-radius:20px;padding:14px;background:linear-gradient(180deg,#fff,#f8fbfc)}
+    .gov-num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:800;flex:0 0 auto}
+    .gov h4{font-size:1rem;color:var(--navy);margin-bottom:4px}
+    .gov p{font-size:.9rem;color:var(--muted)}
+    /* TABLE */
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:20px}
+    table{width:100%;border-collapse:collapse;background:#fff}
+    th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:center;font-size:.88rem}
+    th:first-child,td:first-child{text-align:left}
+    th{background:#f1f8fb;color:var(--navy)}
+    .rb{display:inline-block;padding:4px 8px;border-radius:999px;font-weight:800;font-size:.72rem}
+    .r{background:#e9f8f2;color:#238b55}
+    .a{background:#e9f3fb;color:#1d5f95}
+    .c{background:#fff6e7;color:#b07500}
+    .i{background:#f3f4f6;color:#5d6b78}
+    /* KPIs */
+    .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+    .kpi{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+    .kpi .small{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:800;margin-bottom:10px}
+    .kpi .val{font-size:1.8rem;font-weight:800;color:var(--navy);line-height:1}
+    .kpi .note{font-size:.88rem;color:var(--muted);margin-top:6px;line-height:1.55}
+    /* FOOTER */
+    footer{max-width:1280px;margin:0 auto;padding:0 28px 36px;color:var(--muted);font-size:.84rem}
+    .footer-box{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    /* RESPONSIVE */
+    @media(max-width:1100px){
+      .hero{grid-template-columns:1fr}
+      .phases{grid-template-columns:repeat(2,1fr)}
+      .phases::before{display:none}
+      .dp-grid,.tiers,.kpis{grid-template-columns:repeat(2,1fr)}
+      .grid-2{grid-template-columns:1fr}
+    }
+    @media(max-width:700px){
+      .nav-inner{padding:14px 16px}
+      .nav-links{display:none}
+      .hero,section,footer{padding-left:16px;padding-right:16px}
+      .phases,.dp-grid,.tiers,.kpis{grid-template-columns:1fr}
+      .phase-summary,.phase-name{min-height:auto}
+      .stats{display:grid;grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <svg width="52" height="52" viewBox="0 0 64 64" aria-label="Bayer logo">
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8dd63f"/><stop offset="1" stop-color="#00b5e2"/>
+        </linearGradient></defs>
+        <circle cx="32" cy="32" r="28" fill="none" stroke="url(#g1)" stroke-width="4"/>
+        <circle cx="32" cy="32" r="22" fill="none" stroke="#0f3b5f" stroke-width="2" opacity=".4"/>
+        <path d="M32 10v44M10 32h44" stroke="#0f3b5f" stroke-width="2.8"/>
+        <g fill="#0f3b5f" font-family="Inter,sans-serif" font-size="8.6" font-weight="800" text-anchor="middle">
+          <text x="32" y="16">B</text><text x="32" y="24">A</text><text x="32" y="32.5">Y</text>
+          <text x="32" y="41">E</text><text x="32" y="49">R</text>
+        </g>
+      </svg>
+      <div><h1>NAPS AI Strategy</h1><p>North American Product Supply</p></div>
+    </div>
+    <div class="nav-links">
+      <a href="#approach">5 phases</a>
+    </div>
+    <a class="nav-cta" href="#approach">View strategy</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="kicker">Bayer-aligned operating model</div>
+  <h2>Our approach to <span>NAPS AI Strategy</span></h2>
+  <p class="mission">Enable business-led, ethically governed, and scalable adoption of AI and analytics to deliver measurable insights and outcomes across the enterprise by connecting AI analytics with human oversight.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Strategy phases</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Execution tiers</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Governance levels</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">KPI dimensions</div></div>
+  </div>
+  <div class="ai-mission">
+    <div class="ai-mission-label">Strategic mission</div>
+    <div class="ai-mission-text">"Enable business-led, ethically governed, and scalable adoption of AI and analytics to deliver measurable insights and outcomes across the enterprise."</div>
+  </div>
+</section>
+
+<!-- FIVE PHASES -->
+<section id="approach">
+  <div class="section-head">
+    <div class="section-kicker">Our approach</div>
+    <div class="section-title">Five-phase AI strategy framework</div>
+    <p class="section-desc">We organized our work into a five-phase model aligned to the validated strategy approach — awareness, intake, alignment, rapid POC, and scale &amp; support. Each phase below consolidates workstreams, governance, and delivery assets into a cleaner enterprise narrative.</p>
+  </div>
+
+  <div class="approach-shell">
+    <div class="phases" id="phasesRail">
+
+      <div class="phase-card active" data-phase="1" style="color:#2c7da6">
+        <div class="phase-top">
+          <div class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M16 11a4 4 0 1 0-8 0c0 1.7-1 2.4-1.8 3.2-.5.5-.2 1.3.5 1.3h10.6c.7 0 1-.8.5-1.3-.8-.8-1.8-1.5-1.8-3.2Z"/>
+              <path d="M10 19h4"/>
+            </svg>
+          </div>
+          <div class="phase-label">Phase 1</div>
+          <div class="phase-name">Organizational Awareness</div>
+          <div class="phase-summary">Build shared understanding, local sponsorship, and AI literacy so teams can identify meaningful opportunities with clear business ownership.</div>
+        </div>
+      </div>
+
+      <div class="phase-card" data-phase="2" style="color:#2e8b57">
+        <div class="phase-top">
+          <div class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 6h16M4 12h10M4 18h13"/>
+              <circle cx="18" cy="12" r="2.5"/>
+            </svg>
+          </div>
+          <div class="phase-label">Phase 2</div>
+          <div class="phase-name">Idea Intake &amp; Review</div>
+          <div class="phase-summary">Capture ideas through a unified intake path, make review criteria transparent, and route each demand to the right level of rigor.</div>
+        </div>
+      </div>
+
+      <div class="phase-card" data-phase="3" style="color:#4f63b7">
+        <div class="phase-top">
+          <div class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 7h16M7 12h10M10 17h4"/>
+              <path d="M6 4h12v16H6z" opacity=".2"/>
+            </svg>
+          </div>
+          <div class="phase-label">Phase 3</div>
+          <div class="phase-name">Solution Alignment</div>
+          <div class="phase-summary">Evaluate feasibility, classify complexity, define decision rights, and align the opportunity to measurable value and the right delivery path.</div>
+        </div>
+      </div>
+
+      <div class="phase-card" data-phase="4" style="color:#2b88a3">
+        <div class="phase-top">
+          <div class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M5 13c4-1 6-3 8-8 1 4 3 6 6 8-3 0-5 2-6 6-2-4-4-6-8-6Z"/>
+            </svg>
+          </div>
+          <div class="phase-label">Phase 4</div>
+          <div class="phase-name">Rapid POC Development</div>
+          <div class="phase-summary">Convert selected opportunities into structured proofs of concept with fit-for-purpose teams, sprint delivery, and explicit quality gates.</div>
+        </div>
+      </div>
+
+      <div class="phase-card" data-phase="5" style="color:#3a6c8d">
+        <div class="phase-top">
+          <div class="icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 18V6M10 18V10M16 18V8M22 18V4"/>
+              <path d="M3 20h20"/>
+            </svg>
+          </div>
+          <div class="phase-label">Phase 5</div>
+          <div class="phase-name">Scale &amp; Support</div>
+          <div class="phase-summary">Scale validated use cases, sustain adoption, monitor impact, and reinforce value realization through support and continuous improvement.</div>
+        </div>
+      </div>
+
+    </div><!-- /phases -->
+
+    <!-- DETAIL PANEL 1 -->
+    <div class="detail-panel active" id="detail-1">
+      <div class="dp-head">
+        <div class="dp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2c7da6" stroke-width="1.8"><path d="M16 11a4 4 0 1 0-8 0c0 1.7-1 2.4-1.8 3.2-.5.5-.2 1.3.5 1.3h10.6c.7 0 1-.8.5-1.3-.8-.8-1.8-1.5-1.8-3.2Z"/><path d="M10 19h4"/></svg></div>
+        <div>
+          <div class="dp-title">Phase 1 — Organizational Awareness</div>
+          <div class="dp-sub">Builds shared understanding, local sponsorship, and AI literacy so teams can identify meaningful opportunities with clear business ownership.</div>
+        </div>
+      </div>
+      <div class="dp-grid">
+        <div class="subcard link" onclick="openPage('1.1-communication-campaigns.html','Communication Campaigns')">
+          <div class="subcard-title">Communication Campaigns <span class="arrow-badge">→</span></div>
+          <p>Quarterly campaigns, storytelling, and intranet visibility to explain what AI is relevant for NAPS and where employees should start.</p>
+        </div>
+        <div class="subcard link" onclick="openPage('1.2-digital-literacy-trail.html','Digital Literacy Trail')">
+          <div class="subcard-title">Digital Literacy Trail <span class="arrow-badge">→</span></div>
+          <p>Role-based literacy path for generative AI, agentic AI, automation, analytics, and responsible use across operations teams.</p>
+        </div>
+        <div class="subcard link" onclick="openPage('1.3-innovation-champion-network.html','Innovation Champion Network')">
+          <div class="subcard-title">Innovation Champion Network <span class="arrow-badge">→</span></div>
+          <p>Site and function champions coach peers, shape early demand, and help ideas arrive with stronger problem framing and ownership.</p>
+        </div>
+        <div class="subcard">
+          <div class="subcard-title">Use Case Library</div>
+          <p>Searchable examples, templates, lessons learned, and internal references to accelerate reuse and reduce duplicate experimentation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL PANEL 2 -->
+    <div class="detail-panel" id="detail-2">
+      <div class="dp-head">
+        <div class="dp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2e8b57" stroke-width="1.8"><path d="M4 6h16M4 12h10M4 18h13"/><circle cx="18" cy="12" r="2.5"/></svg></div>
+        <div>
+          <div class="dp-title">Phase 2 — Idea Intake &amp; Review</div>
+          <div class="dp-sub">Captures ideas through a unified intake path, makes review criteria transparent, and routes each demand to the right level of rigor.</div>
+        </div>
+      </div>
+      <div class="dp-grid">
+        <div class="subcard link" onclick="openPage('2.1-naps-ai-intake-form.html','NAPS AI Intake Form')">
+          <div class="subcard-title">Smart Intake Form <span class="arrow-badge">→</span></div>
+          <p>Structured intake captures requester information, problem statement, expected impact, and solution signals in one enterprise entry point.</p>
+        </div>
+        <div class="subcard">
+          <div class="subcard-title">Initial Triage</div>
+          <p>Fast triage validates sponsor, pain point, category, and minimum business case before advancing the idea into full review.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL PANEL 3 -->
+    <div class="detail-panel" id="detail-3">
+      <div class="dp-head">
+        <div class="dp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#4f63b7" stroke-width="1.8"><path d="M4 7h16M7 12h10M10 17h4"/></svg></div>
+        <div>
+          <div class="dp-title">Phase 3 — Solution Alignment</div>
+          <div class="dp-sub">Evaluates feasibility, classifies complexity, defines decision rights, and aligns the opportunity to measurable value and the right delivery path.</div>
+        </div>
+      </div>
+      <div class="dp-grid">
+        <div class="subcard link" onclick="openPage('3.1-innovation-board-review.html','Innovation Board Review')">
+          <div class="subcard-title">Innovation Board Review <span class="arrow-badge">→</span></div>
+          <p>Monthly cross-functional review aligns IT, Legal, Compliance, Finance, and business representatives on decisions, escalations, and feedback loops to rejected or reframed ideas.</p>
+        </div>
+        <div class="subcard link" onclick="openPage('3.2-opportunity-classification.html','Opportunity Classification')">
+          <div class="subcard-title">Opportunity Classification <span class="arrow-badge">→</span></div>
+          <p>Each initiative is classified into Quick Wins, Core Innovations, or Strategic Bets to define delivery path, team model, and approvals.</p>
+        </div>
+        <div class="subcard link" onclick="openPage('3.3-portfolio-visibility.html','Portfolio Visibility')">
+          <div class="subcard-title">Portfolio Visibility <span class="arrow-badge">→</span></div>
+          <p>Shared visibility by status, business unit, site, and technology type supports demand transparency and smarter resourcing decisions.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL PANEL 4 -->
+    <div class="detail-panel" id="detail-4">
+      <div class="dp-head">
+        <div class="dp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2b88a3" stroke-width="1.8"><path d="M5 13c4-1 6-3 8-8 1 4 3 6 6 8-3 0-5 2-6 6-2-4-4-6-8-6Z"/></svg></div>
+        <div>
+          <div class="dp-title">Phase 4 — Rapid POC Development</div>
+          <div class="dp-sub">Converts selected opportunities into structured proofs of concept with fit-for-purpose teams, sprint delivery, and explicit quality gates.</div>
+        </div>
+      </div>
+      <div class="dp-grid">
+        <div class="subcard">
+          <div class="subcard-title">Delivery Track</div>
+          <p>Approved initiatives are handed off to execution teams and tracked across all development stages — from kickoff through build, review, and go-live — with full visibility by tier, status, and responsible team.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL PANEL 5 -->
+    <div class="detail-panel" id="detail-5">
+      <div class="dp-head">
+        <div class="dp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3a6c8d" stroke-width="1.8"><path d="M4 18V6M10 18V10M16 18V8M22 18V4"/><path d="M3 20h20"/></svg></div>
+        <div>
+          <div class="dp-title">Phase 5 — Scale &amp; Support</div>
+          <div class="dp-sub">Scales validated use cases, sustains adoption, monitors impact, and reinforces value realization through support and continuous improvement.</div>
+        </div>
+      </div>
+      <div class="dp-grid">
+        <div class="subcard">
+          <div class="subcard-title">Adoption Monitoring</div>
+          <p>Leading indicators — such as active users, engagement rates, and behavior change signals — are tracked continuously to ensure scaled solutions gain traction and remain relevant across sites and functions.</p>
+        </div>
+        <div class="subcard">
+          <div class="subcard-title">Value Realization</div>
+          <p>Lagging KPIs quantify the business impact of delivered use cases, including financial benefits, hours saved, error reduction, and throughput gains — providing the evidence base for sustained investment and program credibility.</p>
+        </div>
+        <div class="subcard">
+          <div class="subcard-title">Support &amp; Continuous Improvement</div>
+          <p>A structured support model defines how teams report issues, request enhancements, and escalate incidents for live use cases — with clear ownership across L1 triage, L2 functional support, and L3 technical resolution.</p>
+        </div>
+        <div class="subcard link" onclick="openPage('5.4-recognition-success-stories.html','Recognition & Success Stories')">
+          <div class="subcard-title">Recognition &amp; Success Stories <span class="arrow-badge">→</span></div>
+          <p>Contributors are celebrated, wins are published, and successful approaches are packaged as reusable references — reinforcing a culture of innovation and accelerating adoption across additional sites and business units.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /approach-shell -->
+</section>
+
+<!-- EXECUTION TIERS -->
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Execution model</div>
+    <div class="section-title">Three execution tiers</div>
+    <p class="section-desc">Every approved opportunity is classified into one of three tiers. Tier determines the delivery model, team structure, approvals required, and typical time to first result.</p>
+  </div>
+  <div class="tiers">
+    <div class="tier">
+      <div class="tier-badge" style="background:#e9f8f2;color:#238b55">Tier 1</div>
+      <h4>Quick Win</h4>
+      <p>Low-complexity, fast-moving — solved with existing tools, templates, and CoE coaching. Business owners drive delivery.</p>
+      <dl>
+        <dt>Timeline</dt><dd>2–6 weeks</dd>
+        <dt>Team</dt><dd>Business owner + CoE coach</dd>
+        <dt>Approvals</dt><dd>CoE approval only</dd>
+      </dl>
+      <div class="tags"><span class="tag">No-code / low-code</span><span class="tag">Business-led</span><span class="tag">Fast delivery</span></div>
+    </div>
+    <div class="tier">
+      <div class="tier-badge" style="background:#e9f3fb;color:#1d5f95">Tier 2</div>
+      <h4>Core Innovation</h4>
+      <p>Medium-complexity, squad-delivered — cross-functional use cases requiring dedicated internal squads and agile sprints.</p>
+      <dl>
+        <dt>Timeline</dt><dd>6–16 weeks</dd>
+        <dt>Team</dt><dd>Internal cross-functional squad</dd>
+        <dt>Approvals</dt><dd>Innovation Board approval</dd>
+      </dl>
+      <div class="tags"><span class="tag">Agile sprints</span><span class="tag">IRB oversight</span><span class="tag">Demo-driven</span></div>
+    </div>
+    <div class="tier">
+      <div class="tier-badge" style="background:#ede8f8;color:#5b2fa5">Tier 3</div>
+      <h4>Strategic Bet</h4>
+      <p>High-complexity, enterprise-scale — structured stage-gates, executive sponsorship, and Steering Committee involvement.</p>
+      <dl>
+        <dt>Timeline</dt><dd>4–12 months</dd>
+        <dt>Team</dt><dd>Program + architecture + partners</dd>
+        <dt>Approvals</dt><dd>SteerCo + IRB milestones</dd>
+      </dl>
+      <div class="tags"><span class="tag">Stage-gates</span><span class="tag">SteerCo-approved</span><span class="tag">Enterprise scope</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GOVERNANCE -->
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Governance structure</div>
+    <div class="section-title">Three levels of governance</div>
+    <p class="section-desc">The NAPS AI governance model operates at three levels — operational, review, and steering — each with clear decision rights, escalation paths, and RACI accountability.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card-block">
+      <h3>Governance levels</h3>
+      <div class="gov-list">
+        <div class="gov">
+          <div class="gov-num">1</div>
+          <div>
+            <h4>CoE Operational Layer</h4>
+            <p>Day-to-day intake management, triage, coaching, and delivery support. Manages Phase 1–2 execution and Tier 1 delivery directly.</p>
+          </div>
+        </div>
+        <div class="gov">
+          <div class="gov-num">2</div>
+          <div>
+            <h4>Innovation Board Review</h4>
+            <p>Monthly cross-functional governance body. Scores submissions, classifies tiers, allocates resources, and returns structured feedback to all submitters.</p>
+          </div>
+        </div>
+        <div class="gov">
+          <div class="gov-num">3</div>
+          <div>
+            <h4>Steering Committee</h4>
+            <p>Executive-level oversight for Tier 3 bets, major investment decisions, escalations, and program-level reporting on KPIs and portfolio health.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-block">
+      <h3>RACI — key decisions</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Activity</th><th>CoE</th><th>Innov. Board</th><th>SteerCo</th><th>Business</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Intake triage</td><td><span class="rb r">R</span></td><td><span class="rb i">I</span></td><td><span class="rb i">I</span></td><td><span class="rb c">C</span></td></tr>
+            <tr><td>Tier 1 approval</td><td><span class="rb r">R/A</span></td><td><span class="rb i">I</span></td><td><span class="rb i">I</span></td><td><span class="rb c">C</span></td></tr>
+            <tr><td>Tier 2 approval</td><td><span class="rb c">C</span></td><td><span class="rb r">R/A</span></td><td><span class="rb i">I</span></td><td><span class="rb c">C</span></td></tr>
+            <tr><td>Tier 3 approval</td><td><span class="rb c">C</span></td><td><span class="rb r">R</span></td><td><span class="rb a">A</span></td><td><span class="rb c">C</span></td></tr>
+            <tr><td>Value reporting</td><td><span class="rb r">R</span></td><td><span class="rb c">C</span></td><td><span class="rb a">A</span></td><td><span class="rb c">C</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPIs -->
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Success measurement</div>
+    <div class="section-title">Five KPI dimensions</div>
+    <p class="section-desc">Program performance is tracked across five dimensions that connect capability growth, delivery velocity, adoption depth, business value, and responsible use compliance.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi">
+      <div class="small">Dimension 1</div>
+      <div class="val">Literacy</div>
+      <div class="note">% of NAPS employees completing L1 Digital Literacy Trail modules. Target: 100% all employees.</div>
+    </div>
+    <div class="kpi">
+      <div class="small">Dimension 2</div>
+      <div class="val">Pipeline</div>
+      <div class="note">Volume and quality of ideas entering and advancing through the intake and review stages each quarter.</div>
+    </div>
+    <div class="kpi">
+      <div class="small">Dimension 3</div>
+      <div class="val">Delivery</div>
+      <div class="note">Number of approved POCs reaching go-live per quarter, by tier. Tracks velocity and delivery health.</div>
+    </div>
+    <div class="kpi">
+      <div class="small">Dimension 4</div>
+      <div class="val">Value</div>
+      <div class="note">Quantified business impact from delivered use cases — time saved, cost reduced, quality improved, risk reduced.</div>
+    </div>
+    <div class="kpi">
+      <div class="small">Dimension 5</div>
+      <div class="val">Compliance</div>
+      <div class="note">% of active use cases compliant with Responsible AI, data privacy, and governance policies. Zero tolerance for critical violations.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-box">
+    <div>NAPS AI Strategy · Bayer-aligned visual system · North American Product Supply</div>
+    <div>Connected detail pages: Phase 1, 2, 3 &amp; Phase 5 Recognition fully linked.</div>
+  </div>
+</footer>
+
+<script>
+  // Phase switching
+  const cards = [...document.querySelectorAll('.phase-card')];
+  const panels = [...document.querySelectorAll('.detail-panel')];
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      cards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      panels.forEach(p => p.classList.remove('active'));
+      document.getElementById('detail-' + card.dataset.phase).classList.add('active');
+    });
+  });
+
+  
+  // Open sub-pages as centered popup (works with local file:// protocol)
+  function openPage(url, title) {
+    var w = Math.min(1280, screen.width * 0.95);
+    var h = Math.min(900, screen.height * 0.92);
+    var left = Math.round((screen.width - w) / 2);
+    var top  = Math.round((screen.height - h) / 2);
+    var popup = window.open(
+      url, title,
+      'width='+w+',height='+h+',left='+left+',top='+top+
+      ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no'
+    );
+    if (popup) popup.focus();
+  }
+
+</script></body>
+</html>

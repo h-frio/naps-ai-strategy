@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NAPS AI Intake — Guided Request Flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy:#003366;
+      --navy-2:#0f4c81;
+      --green:#00A651;
+      --green-2:#39be7a;
+      --bg:#f5f8fa;
+      --surface:#ffffff;
+      --surface-2:#f8fbfd;
+      --text:#173a56;
+      --muted:#5b7183;
+      --border:#d7e8ef;
+      --line:#e6f0f4;
+      --accent:#eef8fc;
+      --shadow:0 18px 42px rgba(0,51,102,.08);
+      --shadow-2:0 26px 60px rgba(0,51,102,.12);
+      --radius-sm:14px;
+      --radius-md:20px;
+      --radius-lg:28px;
+      --transition:200ms cubic-bezier(.16,1,.3,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;background:radial-gradient(circle at 16% 18%,rgba(191,232,243,.85) 0 10px,transparent 11px),radial-gradient(circle at 28% 72%,rgba(191,232,243,.6) 0 8px,transparent 9px),radial-gradient(circle at 55% 10%,rgba(0,166,81,.14) 0 9px,transparent 10px)}
+
+    .page{max-width:1320px;margin:0 auto;padding:24px}
+
+    .header{
+      display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
+      margin-bottom:18px;padding:18px 22px;background:rgba(255,255,255,.84);backdrop-filter:blur(10px);
+      border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);
+    }
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand-copy h1{font-size:1rem;font-weight:800;color:var(--navy)}
+    .brand-copy p{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+    .status-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--border);font-size:.76rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
+    .status-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 7px rgba(0,166,81,.12)}
+
+    .hero{
+      display:grid;grid-template-columns:1.04fr .96fr;gap:22px;align-items:stretch;margin-bottom:22px;
+    }
+    .hero-copy,.hero-panel{background:var(--surface);border:1px solid var(--border);border-radius:32px;box-shadow:var(--shadow)}
+    .hero-copy{padding:34px 34px 28px}
+    .kicker{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;background:#eef8fc;border:1px solid var(--border);font-size:.76rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--navy);margin-bottom:18px}
+    .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 8px rgba(0,166,81,.12)}
+    .hero-copy h2{font-family:"Source Serif 4",serif;font-size:clamp(2.2rem,3.8vw,4rem);line-height:1.03;color:var(--navy);margin-bottom:14px}
+    .hero-copy h2 span{color:var(--navy-2)}
+    .hero-copy p{font-size:1rem;line-height:1.75;color:var(--muted);max-width:66ch;margin-bottom:22px}
+    .hero-stats{display:flex;flex-wrap:wrap;gap:14px}
+    .hero-stat{background:linear-gradient(180deg,#fff,#f8fbfd);border:1px solid var(--border);border-radius:20px;padding:16px 18px;min-width:150px}
+    .hero-stat strong{display:block;font-size:1.65rem;line-height:1;color:var(--navy);margin-bottom:6px}
+    .hero-stat span{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}
+
+    .hero-panel{padding:26px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(180deg,#fff,#f8fbfd)}
+    .hero-panel-top h3{font-size:1.1rem;color:var(--navy);margin-bottom:8px}
+    .hero-panel-top p{color:var(--muted);font-size:.95rem;line-height:1.7;margin-bottom:16px}
+    .mode-switch{display:grid;gap:12px}
+    .mode-btn{width:100%;text-align:left;padding:16px 18px;border-radius:20px;border:1px solid var(--border);background:#fff;cursor:pointer;transition:all var(--transition);box-shadow:0 8px 22px rgba(0,51,102,.04)}
+    .mode-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .mode-btn.active{border-color:rgba(0,166,81,.35);background:linear-gradient(180deg,#f8fffb,#f0fbf5);box-shadow:0 18px 42px rgba(0,166,81,.10)}
+    .mode-btn strong{display:block;color:var(--navy);margin-bottom:4px}
+    .mode-btn span{display:block;color:var(--muted);font-size:.9rem}
+    .logic-box{margin-top:18px;padding:18px;border-radius:22px;background:#fff;border:1px solid var(--border)}
+    .logic-box h4{font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--navy-2);margin-bottom:10px}
+    .logic-list{display:grid;gap:8px}
+    .logic-list div{font-size:.9rem;color:var(--muted)}
+    .logic-list b{color:var(--navy)}
+
+    .workspace{background:var(--surface);border:1px solid var(--border);border-radius:32px;box-shadow:var(--shadow);overflow:hidden}
+    .workspace-top{padding:24px 28px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start}
+    .workspace-top h3{font-size:1.25rem;color:var(--navy);margin-bottom:4px}
+    .workspace-top p{font-size:.94rem;color:var(--muted)}
+
+    .stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;min-width:min(100%,620px)}
+    .step-pill{padding:13px 14px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(180deg,#fff,#f8fbfd);transition:all var(--transition)}
+    .step-pill .eyebrow{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-bottom:4px}
+    .step-pill strong{display:block;color:var(--navy);font-size:.92rem}
+    .step-pill.active{border-color:rgba(0,166,81,.35);background:linear-gradient(180deg,#f7fffa,#eefaf3);box-shadow:0 16px 30px rgba(0,166,81,.08)}
+    .step-pill.done{border-color:rgba(15,76,129,.22);background:#f6fbff}
+
+    .form-shell{padding:28px}
+    .view{display:none}
+    .view.active{display:block}
+
+    .screen{
+      display:none;animation:fadeUp .28s ease;
+    }
+    .screen.active{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+    .screen-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:start}
+    .screen-intro{padding:26px;border-radius:28px;background:linear-gradient(180deg,#fff,#f8fbfd);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .screen-intro .label{font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--navy-2);font-weight:800;margin-bottom:12px}
+    .screen-intro h4{font-family:"Source Serif 4",serif;font-size:2rem;line-height:1.04;color:var(--navy);margin-bottom:10px}
+    .screen-intro p{color:var(--muted);line-height:1.75;margin-bottom:18px}
+    .mini-cards{display:grid;gap:12px}
+    .mini-card{padding:15px 16px;border-radius:18px;background:#fff;border:1px solid var(--border)}
+    .mini-card strong{display:block;color:var(--navy);margin-bottom:4px}
+    .mini-card span{display:block;color:var(--muted);font-size:.9rem}
+
+    .form-card{padding:26px;border-radius:28px;background:linear-gradient(180deg,#fff,#fbfcfd);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .fields{display:grid;gap:16px}
+    .grid-2,.grid-3{display:grid;gap:16px}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .field{display:grid;gap:8px}
+    .field label{font-size:.92rem;font-weight:700;color:var(--text)}
+    .hint{font-size:.76rem;color:var(--muted)}
+    .control, textarea, select{
+      width:100%;background:#fff;border:1px solid var(--border);color:var(--text);border-radius:16px;padding:14px 15px;font:inherit;outline:none;transition:border-color var(--transition), box-shadow var(--transition), transform var(--transition)
+    }
+    textarea{min-height:150px;resize:vertical}
+    .control:focus, textarea:focus, select:focus{border-color:rgba(0,166,81,.45);box-shadow:0 0 0 4px rgba(0,166,81,.11)}
+
+    .radio-grid,.check-grid{display:grid;gap:12px}
+    .option-card{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:flex-start;padding:16px;border-radius:18px;border:1px solid var(--border);background:#fff;transition:all var(--transition)}
+    .option-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .option-card.compact{grid-template-columns:auto 1fr}
+    .option-card strong{display:block;color:var(--navy);margin-bottom:4px}
+    .option-card span{display:block;color:var(--muted);font-size:.9rem;line-height:1.6}
+    .priority-tag{padding:7px 10px;border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+    .p1{background:#fde8e8;color:#9b2c2c}
+    .p2{background:#fef3d9;color:#9a6700}
+    .p3{background:#e9f8ef;color:#126e43}
+    .p4{background:#e8f4fb;color:#185f93}
+    .px{background:#eef3f7;color:#566f83}
+
+    .score-band{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+    .score-card{padding:18px;border-radius:20px;background:linear-gradient(180deg,#fff,#f8fbfd);border:1px solid var(--border);box-shadow:0 8px 20px rgba(0,51,102,.04)}
+    .score-card .eyebrow{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-bottom:8px}
+    .score-card .value{font-size:1.9rem;line-height:1;color:var(--navy);font-weight:800}
+    .score-card .sub{font-size:.8rem;color:var(--muted);margin-top:6px;line-height:1.55}
+
+    .upload-box{padding:18px;border:1px dashed #bdd8e2;border-radius:18px;background:#fbfdfe}
+    .upload-box p{font-size:.9rem;color:var(--muted);margin-top:8px}
+
+    .screen-actions{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:20px}
+    .btn{appearance:none;border:none;border-radius:999px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;transition:transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition)}
+    .btn:active{transform:translateY(1px)}
+    .btn-secondary{background:#fff;color:var(--navy);border:1px solid var(--border)}
+    .btn-primary{background:linear-gradient(135deg,var(--green),var(--green-2));color:#05253f;box-shadow:0 18px 36px rgba(0,166,81,.18)}
+
+    .summary-box{display:grid;gap:12px}
+    .summary-item{padding:14px 16px;border-radius:18px;background:#fff;border:1px solid var(--border)}
+    .summary-item .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-bottom:4px}
+    .summary-item .v{font-size:.98rem;color:var(--navy);font-weight:700}
+
+    .status-view{padding:4px 0}
+    .status-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .status-card{padding:24px;border-radius:28px;background:linear-gradient(180deg,#fff,#f8fbfd);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .status-card h4{font-family:"Source Serif 4",serif;font-size:1.8rem;line-height:1.08;color:var(--navy);margin-bottom:10px}
+    .status-card p{color:var(--muted);margin-bottom:18px;line-height:1.75}
+
+    @media(max-width:1080px){
+      .hero,.screen-grid,.status-grid{grid-template-columns:1fr}
+      .stepper{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:760px){
+      .page{padding:16px}
+      .hero-copy,.hero-panel,.workspace,.header{border-radius:24px}
+      .hero-copy,.hero-panel,.form-shell{padding:20px}
+      .workspace-top{padding:20px}
+      .grid-2,.grid-3,.score-band,.stepper{grid-template-columns:1fr}
+      .option-card{grid-template-columns:auto 1fr}
+      .priority-tag{justify-self:start}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header" style="display:flex;align-items:center;gap:16px">
+      <div class="brand">
+        <svg width="50" height="50" viewBox="0 0 64 64" aria-label="Bayer logo">
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00A651"/><stop offset="1" stop-color="#7dd3f7"/></linearGradient></defs>
+          <circle cx="32" cy="32" r="28" fill="none" stroke="url(#g1)" stroke-width="4"/>
+          <circle cx="32" cy="32" r="22" fill="none" stroke="#003366" stroke-width="2" opacity=".38"/>
+          <path d="M32 10v44M10 32h44" stroke="#003366" stroke-width="2.8"/>
+        </svg>
+        <div class="brand-copy">
+          <h1>NAPS AI Intake</h1>
+          <p>Pathfinders · North American Product Supply</p>
+        </div>
+      </div>
+      <div class="status-badge">Guided intake flow</div>
+      <div style="margin-left:auto"><button onclick="backToStrategy()" style="display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;background:#0f3b5f;color:#fff;border:none;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">&#8592; Back to Strategy</button></div>
+</header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="kicker">Smart intake experience</div>
+        <h2>Submit requests in a <span>clean guided flow</span></h2>
+        <p>This redesign follows the same visual identity as the attached Digital Literacy Trail file, while turning the intake into a screen-by-screen experience with clear next actions, lighter cards, and more interactive guidance throughout the journey.</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong>2</strong><span>Entry paths</span></div>
+          <div class="hero-stat"><strong>4</strong><span>Guided screens</span></div>
+          <div class="hero-stat"><strong>9</strong><span>Core intake prompts</span></div>
+          <div class="hero-stat"><strong>Auto</strong><span>Priority guidance</span></div>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="hero-panel-top">
+          <h3>Choose how you want to start</h3>
+          <p>The first screen separates new submission from status lookup, so the experience feels lighter and more intuitive for requesters.</p>
+          <div class="mode-switch">
+            <button class="mode-btn active" id="newBtn" onclick="switchMode('new')">
+              <strong>Create a new request</strong>
+              <span>Use the full guided intake flow.</span>
+            </button>
+            <button class="mode-btn" id="statusBtn" onclick="switchMode('status')">
+              <strong>View request status</strong>
+              <span>Search for an existing work item.</span>
+            </button>
+          </div>
+        </div>
+        <div class="logic-box">
+          <h4>Priority logic preview</h4>
+          <div class="logic-list">
+            <div><b>P1</b> Compliance / Regulatory / Legal.</div>
+            <div><b>P2</b> Growth and competitive advantage.</div>
+            <div><b>P3</b> Experience, efficiency, and most improvement requests.</div>
+            <div><b>P4</b> Operational visualization and lower-priority insight work.</div>
+            <div><b>Review</b> Quality, maintenance, and custom items that depend on triage context.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="workspace-top">
+        <div>
+          <h3>Request workspace</h3>
+          <p>Move through the intake one screen at a time using Next and Back.</p>
+        </div>
+        <div class="stepper" id="stepper">
+          <div class="step-pill active" data-step="0"><span class="eyebrow">Step 1</span><strong>Request setup</strong></div>
+          <div class="step-pill" data-step="1"><span class="eyebrow">Step 2</span><strong>Request type</strong></div>
+          <div class="step-pill" data-step="2"><span class="eyebrow">Step 3</span><strong>Business case</strong></div>
+          <div class="step-pill" data-step="3"><span class="eyebrow">Step 4</span><strong>Process & outcome</strong></div>
+        </div>
+      </div>
+
+      <div class="form-shell">
+        <div id="newView" class="view active">
+
+          <!-- SCREEN 1 -->
+          <section class="screen active" data-screen="0">
+            <div class="screen-grid">
+              <aside class="screen-intro">
+                <div class="label">Step 1 · Request setup</div>
+                <h4>Capture the core ownership details.</h4>
+                <p>Start with the submitter, process owner, sponsor, and the title of the work item. This makes the intake easier to route and triage.</p>
+                <div class="mini-cards">
+                  <div class="mini-card"><strong>Who owns the work?</strong><span>Clarify who submitted the request and who owns the process.</span></div>
+                  <div class="mini-card"><strong>Who sponsors it?</strong><span>Capture executive support or record N/A if none exists yet.</span></div>
+                  <div class="mini-card"><strong>What is the scope?</strong><span>Name the primary unit and estimate the population using the data.</span></div>
+                </div>
+              </aside>
+              <div class="form-card">
+                <div class="fields">
+                  <div class="grid-2">
+                    <div class="field">
+                      <label for="submittedBy">1. Work item submitted by</label>
+                      <input id="submittedBy" class="control" type="text" placeholder="Enter submitter name" />
+                    </div>
+                    <div class="field">
+                      <label for="processOwner">2. Business process owner</label>
+                      <input id="processOwner" class="control" type="text" placeholder="Only if different from the submitter" />
+                      <div class="hint">Leave blank if the submitter is also the process owner.</div>
+                    </div>
+                  </div>
+                  <div class="grid-2">
+                    <div class="field">
+                      <label for="sponsor">3. Executive sponsor</label>
+                      <input id="sponsor" class="control" type="text" placeholder="Enter sponsor name or N/A" />
+                    </div>
+                    <div class="field">
+                      <label for="requestTitle">4. Title</label>
+                      <input id="requestTitle" class="control" type="text" placeholder="Use a short, clear phrase describing the overall goal" />
+                    </div>
+                  </div>
+                  <div class="grid-2">
+                    <div class="field">
+                      <label for="primaryUnit">5. Primary unit using this data</label>
+                      <input id="primaryUnit" class="control" type="text" placeholder="Example: SSAs, Business Solutions, Field Operations" />
+                    </div>
+                    <div class="field">
+                      <label for="unitScope">5a. Scope of people in numbers</label>
+                      <input id="unitScope" class="control" type="text" placeholder="Example: SSAs ~92 people; Business Solutions ~3 people" />
+                    </div>
+                  </div>
+                </div>
+                <div class="screen-actions">
+                  <span></span>
+                  <button class="btn btn-primary" type="button" onclick="nextScreen()">Next</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCREEN 2 -->
+          <section class="screen" data-screen="1">
+            <div class="screen-grid">
+              <aside class="screen-intro">
+                <div class="label">Step 2 · Request type</div>
+                <h4>Tell us what kind of work you need.</h4>
+                <p>This screen keeps the request classification simple before the user moves into business justification and process detail.</p>
+                <div class="mini-cards">
+                  <div class="mini-card"><strong>New request</strong><span>Use for a new AI project, automation, workflow, or insight idea.</span></div>
+                  <div class="mini-card"><strong>Enhancement</strong><span>Use when an existing workflow already exists and needs a change.</span></div>
+                  <div class="mini-card"><strong>Other</strong><span>Describe the squad’s intended outcome if it does not fit the standard paths.</span></div>
+                </div>
+              </aside>
+              <div class="form-card">
+                <div class="fields">
+                  <div class="radio-grid">
+                    <label class="option-card compact">
+                      <input type="radio" name="requestType" value="new-project" checked />
+                      <div>
+                        <strong>Submit a new AI project / workflow idea</strong>
+                        <span>Use this for a new automation, workflow, dashboard, copilot, agent, or AI-enabled process.</span>
+                      </div>
+                    </label>
+                    <label class="option-card compact">
+                      <input type="radio" name="requestType" value="enhancement" />
+                      <div>
+                        <strong>Request an enhancement / change to an existing AI project / workflow</strong>
+                        <span>Use this when a solution already exists and your squad needs a modification, improvement, or extension.</span>
+                      </div>
+                    </label>
+                    <label class="option-card compact">
+                      <input type="radio" name="requestType" value="other" onchange="toggleOtherRequest()" />
+                      <div>
+                        <strong>Other</strong>
+                        <span>Use this if the request does not fit the standard pathways and describe the desired outcome below.</span>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="field" id="otherRequestWrap" style="display:none;">
+                    <label for="otherRequest">Other request type detail</label>
+                    <input id="otherRequest" class="control" type="text" placeholder="Describe your squad’s desired outcome" />
+                  </div>
+                </div>
+                <div class="screen-actions">
+                  <button class="btn btn-secondary" type="button" onclick="prevScreen()">Back</button>
+                  <button class="btn btn-primary" type="button" onclick="nextScreen()">Next</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCREEN 3 -->
+          <section class="screen" data-screen="2">
+            <div class="screen-grid">
+              <aside class="screen-intro">
+                <div class="label">Step 3 · Business case</div>
+                <h4>Choose the business justification.</h4>
+                <p>Requesters can select more than one justification. The interface estimates a suggested priority and calls out any category that still requires manual review.</p>
+                <div class="score-band" style="grid-template-columns:1fr; margin-top:0;">
+                  <div class="score-card"><div class="eyebrow">Suggested priority</div><div class="value" id="priorityValue">Not scored</div><div class="sub" id="prioritySub">Select at least one ranked business justification.</div></div>
+                  <div class="score-card"><div class="eyebrow">Value orientation</div><div class="value" id="valueGroup">Mixed</div><div class="sub">Top-line, bottom-line, efficiency, or mixed signal.</div></div>
+                  <div class="score-card"><div class="eyebrow">Triage note</div><div class="value" id="triageNote">Standard</div><div class="sub">“Review” appears when any depends-based item is selected.</div></div>
+                </div>
+              </aside>
+              <div class="form-card">
+                <div class="fields">
+                  <div class="check-grid">
+                    <label class="option-card"><input type="checkbox" class="biz-check" data-rank="1" data-group="Topline" /><div><strong>Compliance / Regulatory / Legal</strong><span>Highest urgency when risk exposure or regulatory obligations are involved.</span></div><span class="priority-tag p1">P1</span></label>
+                    <label class="option-card"><input type="checkbox" class="biz-check" data-rank="2" data-group="Topline" /><div><strong>Grow the Business (Top-line growth)</strong><span>Work that directly supports growth, revenue, or expansion opportunities.</span></div><span class="priority-tag p2">P2</span></label>
+                    <label class="option-card"><input type="checkbox" class="biz-check" data-rank="2" data-group="Topline" /><div><strong>Capture Competitive Advantage / Reveal Competitive Opportunities</strong><span>Work that strengthens competitive position or reveals important market opportunities.</span></div><span class="priority-tag p2">P2</span></label>
+                    <label class="option-card"><input type="checkbox" class="biz-check" data-rank="3" data-group="Bottomline" /><div><strong>Improve Partner / Customer Experience</strong><span>Examples include improvements to SIP, Dealer Close Out, and user-facing experiences.</span></div><span class="priority-tag p3">P3</span></label>
+                    <label class="option-card"><input type="checkbox" class="biz-check" data-rank="3" data-group="Efficiency" /><div><strong>Increase Efficiency / Automate Manual Processes</strong><span>Automation that reduces manual work for the stakeholder’s squad or process area.</span></div><span class="priority-tag p3">P3</span></label>
+                    <label class="option-card"><input type="checkbox" class="biz-check depends" data-rank="0" data-group="Depends" /><div><strong>Quality Improvement</strong><span>Requires triage because impact varies by process criticality and business consequence.</span></div><span class="priority-tag px">Review</span></label>
+                    <label class="option-card"><input type="checkbox" class="biz-check" data-rank="4" data-group="Bottomline" /><div><strong>Visualize Operations</strong><span>Visualization and operational insight use cases with lower urgency by default.</span></div><span class="priority-tag p4">P4</span></label>
+                    <label class="option-card"><input type="checkbox" class="biz-check depends" data-rank="0" data-group="Depends" /><div><strong>Keep the Lights On / Maintenance</strong><span>Often depends on asset protection, continuity, or loss avoidance context.</span></div><span class="priority-tag px">Depends</span></label>
+                    <label class="option-card"><input type="checkbox" class="biz-check depends" data-rank="0" data-group="Depends" onchange="toggleOtherJustification()" /><div><strong>Other</strong><span>Use when the business reason does not fit the listed categories.</span></div><span class="priority-tag px">Depends</span></label>
+                  </div>
+                  <div class="field" id="otherJustificationWrap" style="display:none;">
+                    <label for="otherJustification">Other business justification</label>
+                    <input id="otherJustification" class="control" type="text" placeholder="Describe the additional justification" />
+                  </div>
+                </div>
+                <div class="screen-actions">
+                  <button class="btn btn-secondary" type="button" onclick="prevScreen()">Back</button>
+                  <button class="btn btn-primary" type="button" onclick="nextScreen()">Next</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCREEN 4 -->
+          <section class="screen" data-screen="3">
+            <div class="screen-grid">
+              <aside class="screen-intro">
+                <div class="label">Step 4 · Process and outcome</div>
+                <h4>Describe how the work happens today and what success looks like.</h4>
+                <p>This last screen captures the current-state process, optional supporting files, and the expected future-state value so the intake can move into review with more context.</p>
+                <div class="summary-box">
+                  <div class="summary-item"><div class="k">Submission path</div><div class="v">Guided one-screen-at-a-time intake</div></div>
+                  <div class="summary-item"><div class="k">Output</div><div class="v">Cleaner triage packet for the Pathfinders team</div></div>
+                  <div class="summary-item"><div class="k">Optional detail</div><div class="v">Outcome and ROI can remain lightweight if still unknown</div></div>
+                </div>
+              </aside>
+              <div class="form-card">
+                <div class="fields">
+                  <div class="field">
+                    <label for="currentProcess">8. What is the current process for completing this work?</label>
+                    <textarea id="currentProcess" placeholder="Describe the current workflow, manual steps, systems used, handoffs, bottlenecks, and where the process slows down."></textarea>
+                  </div>
+                  <div class="upload-box">
+                    <label for="supportingFiles" style="display:block;font-weight:700;color:var(--navy);margin-bottom:8px;">Supporting documents (optional)</label>
+                    <input id="supportingFiles" class="control" type="file" multiple />
+                    <p>You may attach SOPs, screenshots, process maps, working files, or other supporting documents.</p>
+                  </div>
+                  <div class="grid-2">
+                    <div class="field">
+                      <label for="expectedOutcome">9. Expected outcome (optional)</label>
+                      <textarea id="expectedOutcome" placeholder="Describe the future-state result this work should enable."></textarea>
+                    </div>
+                    <div class="field">
+                      <label for="knownROI">Known ROI or value estimate (optional)</label>
+                      <textarea id="knownROI" placeholder="Examples: hours saved, cost avoided, revenue impact, error reduction, service improvement, or risk reduction."></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="screen-actions">
+                  <button class="btn btn-secondary" type="button" onclick="prevScreen()">Back</button>
+                  <button class="btn btn-primary" type="button">Submit request</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div id="statusView" class="view">
+          <div class="status-view">
+            <div class="status-grid">
+              <div class="status-card">
+                <div class="label" style="font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--navy-2);font-weight:800;margin-bottom:12px;">Status lookup</div>
+                <h4>Find an existing request</h4>
+                <p>Use this path when the user wants to check the state of a work item instead of submitting a new one.</p>
+                <div class="field">
+                  <label for="statusSearch">Search by request ID, title, or submitter</label>
+                  <input id="statusSearch" class="control" type="text" placeholder="Example: PATH-0142, Yield dashboard, Jane Smith" />
+                </div>
+                <div class="screen-actions" style="margin-top:18px;">
+                  <span></span>
+                  <button class="btn btn-primary" type="button">Find request</button>
+                </div>
+              </div>
+              <div class="status-card">
+                <div class="label" style="font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--navy-2);font-weight:800;margin-bottom:12px;">Status model</div>
+                <h4>Simple request lifecycle</h4>
+                <p>The cleaner status side keeps the experience lightweight while still giving structure to the work item journey.</p>
+                <div class="mini-cards">
+                  <div class="mini-card"><strong>Received</strong><span>The request has been logged and is waiting for triage.</span></div>
+                  <div class="mini-card"><strong>In review</strong><span>The team is assessing scope, business value, and fit.</span></div>
+                  <div class="mini-card"><strong>Decisioned</strong><span>The request has been approved, queued, redirected, or closed.</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    let currentScreen = 0;
+    const screens = Array.from(document.querySelectorAll('.screen'));
+    const pills = Array.from(document.querySelectorAll('.step-pill'));
+    const checks = Array.from(document.querySelectorAll('.biz-check'));
+
+    function renderScreens(){
+      screens.forEach((screen, i) => screen.classList.toggle('active', i === currentScreen));
+      pills.forEach((pill, i) => {
+        pill.classList.toggle('active', i === currentScreen);
+        pill.classList.toggle('done', i < currentScreen);
+      });
+      window.scrollTo({top: document.querySelector('.workspace').offsetTop - 16, behavior:'smooth'});
+    }
+
+    function nextScreen(){
+      if(currentScreen < screens.length - 1){
+        currentScreen += 1;
+        renderScreens();
+      }
+    }
+
+    function prevScreen(){
+      if(currentScreen > 0){
+        currentScreen -= 1;
+        renderScreens();
+      }
+    }
+
+    function switchMode(mode){
+      const newView = document.getElementById('newView');
+      const statusView = document.getElementById('statusView');
+      const newBtn = document.getElementById('newBtn');
+      const statusBtn = document.getElementById('statusBtn');
+      const stepper = document.getElementById('stepper');
+      if(mode === 'new'){
+        newView.classList.add('active');
+        statusView.classList.remove('active');
+        newBtn.classList.add('active');
+        statusBtn.classList.remove('active');
+        stepper.style.opacity = '1';
+      } else {
+        newView.classList.remove('active');
+        statusView.classList.add('active');
+        newBtn.classList.remove('active');
+        statusBtn.classList.add('active');
+        stepper.style.opacity = '.45';
+      }
+    }
+
+    function toggleOtherRequest(){
+      const otherSelected = document.querySelector('input[name="requestType"][value="other"]').checked;
+      document.getElementById('otherRequestWrap').style.display = otherSelected ? 'grid' : 'none';
+    }
+
+    function toggleOtherJustification(){
+      const otherBox = checks[8];
+      document.getElementById('otherJustificationWrap').style.display = otherBox.checked ? 'grid' : 'none';
+      updatePriority();
+    }
+
+    function updatePriority(){
+      const selected = checks.filter(c => c.checked);
+      const ranked = selected.filter(c => Number(c.dataset.rank) > 0);
+      const depends = selected.some(c => c.classList.contains('depends'));
+      const priorityValue = document.getElementById('priorityValue');
+      const prioritySub = document.getElementById('prioritySub');
+      const valueGroup = document.getElementById('valueGroup');
+      const triageNote = document.getElementById('triageNote');
+
+      if(!ranked.length){
+        priorityValue.textContent = depends ? 'Review' : 'Not scored';
+        prioritySub.textContent = depends ? 'Manual triage recommended because one or more selections require review.' : 'Select at least one ranked business justification.';
+      } else {
+        const avg = ranked.reduce((sum, item) => sum + Number(item.dataset.rank), 0) / ranked.length;
+        let bucket = 'P4';
+        if(avg <= 1.5) bucket = 'P1';
+        else if(avg <= 2.5) bucket = 'P2';
+        else if(avg <= 3.5) bucket = 'P3';
+        priorityValue.textContent = depends ? bucket + ' + Review' : bucket;
+        prioritySub.textContent = 'Average rank based on selected justifications: ' + avg.toFixed(1);
+      }
+
+      const groups = [...new Set(selected.map(c => c.dataset.group).filter(Boolean).filter(g => g !== 'Depends'))];
+      valueGroup.textContent = groups.length === 0 ? 'Mixed' : groups.length === 1 ? groups[0] : 'Mixed';
+      triageNote.textContent = depends ? 'Manual review' : 'Standard';
+    }
+
+    checks.forEach(c => c.addEventListener('change', updatePriority));
+    updatePriority();
+    renderScreens();
+  </script>
+<script>
+function backToStrategy(){
+  if (window.opener) {
+    // Opened as popup from index — close this window and return focus to opener
+    window.close();
+  } else {
+    // Opened directly — navigate to index
+    window.location.href = '0-naps-ai-strategy.html';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Communication Campaigns — NAPS AI Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f3b5f;
+  --navy-2:#174c73;
+  --green:#8dd63f;
+  --teal:#bfe8f3;
+  --sky:#dff4fb;
+  --bg:#f5f7f8;
+  --surface:#ffffff;
+  --surface-2:#f9fbfc;
+  --text:#173a56;
+  --muted:#4f6778;
+  --line:#d7e8ef;
+  --line-2:#c6dbe5;
+  --glow:rgba(141,214,63,.18);
+  --r:22px;
+  --shadow:0 16px 42px rgba(17,56,86,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+a{text-decoration:none;color:inherit}
+img,svg{display:block;max-width:100%}
+
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.85;
+  background:
+    radial-gradient(circle at 16% 18%, rgba(191,232,243,.8) 0 10px, transparent 11px),
+    radial-gradient(circle at 28% 72%, rgba(191,232,243,.65) 0 8px, transparent 9px),
+    radial-gradient(circle at 55% 10%, rgba(191,232,243,.55) 0 9px, transparent 10px),
+    linear-gradient(120deg, transparent 0 18%, rgba(191,232,243,.22) 18.2% 18.5%, transparent 18.7% 100%),
+    linear-gradient(60deg, transparent 0 31%, rgba(191,232,243,.16) 31.2% 31.5%, transparent 31.7% 100%),
+    linear-gradient(transparent 0 0);
+}
+body::after{
+  content:"";position:fixed;left:-5%;bottom:-8%;width:58vw;height:60vh;pointer-events:none;opacity:.36;
+  background:
+    linear-gradient(60deg, transparent 0 49.3%, var(--line) 49.4% 49.8%, transparent 49.9%),
+    linear-gradient(-60deg, transparent 0 49.3%, var(--line) 49.4% 49.8%, transparent 49.9%),
+    radial-gradient(circle at 25% 50%, var(--teal) 0 7px, transparent 8px),
+    radial-gradient(circle at 75% 50%, var(--teal) 0 7px, transparent 8px),
+    radial-gradient(circle at 50% 7%, var(--teal) 0 7px, transparent 8px),
+    radial-gradient(circle at 50% 93%, var(--teal) 0 7px, transparent 8px);
+  transform:rotate(-2deg);
+}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:20;background:rgba(245,247,248,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1280px;margin:auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:16px}
+.brand h1{font-size:1.02rem;font-weight:800;letter-spacing:.01em;color:var(--navy)}
+.brand p{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.nav-breadcrumb{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--muted);font-weight:600}
+.nav-breadcrumb a{color:var(--muted)}
+.nav-breadcrumb a:hover{color:var(--navy)}
+.nav-breadcrumb .sep{opacity:.4}
+.nav-breadcrumb .current{color:var(--navy);font-weight:800}
+.back-btn{display:flex;align-items:center;gap:6px;background:var(--navy);color:#fff;padding:9px 16px;border-radius:999px;font-size:.84rem;font-weight:700;box-shadow:var(--shadow);transition:.2s}
+.back-btn:hover{background:var(--navy-2)}
+
+/* HERO */
+.page-hero{max-width:1280px;margin:0 auto;padding:36px 28px 30px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:#eef8fc;border:1px solid var(--line);font-size:.74rem;font-weight:800;color:var(--navy-2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:16px}
+.hero-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 8px var(--glow)}
+.page-hero h2{font-family:"Source Serif 4",serif;font-size:clamp(2rem,3.5vw,3.4rem);line-height:1.06;color:var(--navy);margin-bottom:12px}
+.page-hero .desc{color:var(--muted);font-size:1rem;line-height:1.7;max-width:740px}
+.hero-stats{display:flex;flex-direction:column;gap:12px;flex:0 0 auto}
+.h-stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 20px;min-width:140px;box-shadow:var(--shadow);text-align:center}
+.h-stat-num{font-size:1.6rem;font-weight:800;color:var(--navy)}
+.h-stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:2px}
+
+/* SECTION COMMON */
+section{max-width:1280px;margin:0 auto;padding:12px 28px 44px;position:relative}
+.section-head{max-width:760px;margin:0 0 22px}
+.section-kicker{font-size:.74rem;text-transform:uppercase;letter-spacing:.11em;color:var(--navy-2);font-weight:800;margin-bottom:6px}
+.section-title{font-family:"Source Serif 4",serif;font-size:clamp(1.5rem,2.5vw,2.3rem);line-height:1.1;color:var(--navy);margin-bottom:8px}
+.section-desc{font-size:.96rem;color:var(--muted);line-height:1.7}
+
+/* TABS */
+.tabs-shell{background:var(--surface);border:1px solid var(--line);border-radius:32px;box-shadow:var(--shadow);overflow:hidden}
+.tabs-bar{display:flex;gap:0;border-bottom:1px solid var(--line);overflow-x:auto;background:var(--surface-2);scrollbar-width:none}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex:0 0 auto;padding:14px 20px;font-size:.84rem;font-weight:700;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.tab-btn:hover{color:var(--navy);background:var(--sky)}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--navy-2);background:#fff}
+.tab-btn .cnt{font-size:.72rem;background:#eef8fc;border:1px solid var(--line);border-radius:999px;padding:2px 7px;font-weight:800;color:var(--navy-2)}
+.tab-pane{display:none;padding:26px}
+.tab-pane.active{display:block}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.comm-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);transition:.2s transform,.2s border-color,.2s box-shadow;position:relative;overflow:hidden}
+.comm-card:hover{transform:translateY(-2px);border-color:var(--line-2);box-shadow:0 20px 44px rgba(17,56,86,.11)}
+.comm-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent-bar,var(--navy-2));border-radius:4px 0 0 4px}
+.card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.card-icon{width:40px;height:40px;border-radius:12px;background:var(--sky);display:grid;place-items:center;font-size:1.2rem;flex:0 0 auto;border:1px solid var(--line)}
+.card-meta{flex:1}
+.card-title{font-size:.98rem;font-weight:800;color:var(--navy);line-height:1.25;margin-bottom:3px}
+.card-owner{font-size:.74rem;color:var(--muted);font-weight:600}
+.card-body{font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:10px}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:#f4fafc;color:var(--muted);font-size:.72rem;font-weight:700}
+.tag.freq{background:#eef8fc;color:var(--navy-2);border-color:var(--line-2)}
+.tag.scope{background:#f0f9f0;color:#2e6b4a;border-color:#c5e8d4}
+.tag.tool{background:#fdf4ff;color:#6a3ba8;border-color:#dfc8f4}
+
+/* WIDE CARD (for overview) */
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ov-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);cursor:pointer;transition:.2s transform,.2s border-color,.2s box-shadow;text-align:left;width:100%}
+.ov-card:hover{transform:translateY(-3px);border-color:var(--line-2);box-shadow:0 20px 44px rgba(17,56,86,.11)}
+.ov-card.active{border-color:var(--navy-2);box-shadow:0 0 0 3px rgba(23,76,115,.12),var(--shadow)}
+.ov-emoji{font-size:1.9rem;margin-bottom:10px}
+.ov-count{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px}
+.ov-title{font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:6px}
+.ov-desc{font-size:.84rem;color:var(--muted);line-height:1.6}
+.ov-arrow{margin-top:10px;font-size:.78rem;font-weight:800;color:var(--navy-2);display:flex;align-items:center;gap:4px}
+
+/* SECTION DIVIDERS in tab content */
+.tab-section{margin-bottom:28px}
+.tab-section-label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy-2);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+
+/* FOOTER */
+footer{max-width:1280px;margin:0 auto;padding:0 28px 36px;color:var(--muted);font-size:.84rem}
+.footer-box{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+
+@media(max-width:900px){
+  .page-hero{grid-template-columns:1fr}
+  .hero-stats{flex-direction:row;flex-wrap:wrap}
+  .overview-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .nav-inner{padding:14px 16px}
+  .page-hero,section,footer{padding-left:16px;padding-right:16px}
+  .overview-grid,.cards-grid{grid-template-columns:1fr}
+  .tab-btn{padding:12px 14px;font-size:.8rem}
+  .tab-pane{padding:18px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <svg width="44" height="44" viewBox="0 0 64 64" aria-label="Bayer logo">
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8dd63f"/><stop offset="1" stop-color="#00b5e2"/></linearGradient></defs>
+        <circle cx="32" cy="32" r="28" fill="none" stroke="url(#g1)" stroke-width="4"/>
+        <circle cx="32" cy="32" r="22" fill="none" stroke="#0f3b5f" stroke-width="2" opacity=".4"/>
+        <path d="M32 10v44M10 32h44" stroke="#0f3b5f" stroke-width="2.8"/>
+        <g fill="#0f3b5f" font-family="Inter,sans-serif" font-size="8.6" font-weight="800" text-anchor="middle">
+          <text x="32" y="16">B</text><text x="32" y="24">A</text><text x="32" y="32.5">Y</text><text x="32" y="41">E</text><text x="32" y="49">R</text>
+        </g>
+      </svg>
+      <div>
+        <h1>NAPS AI Strategy</h1>
+        <p>North American Product Supply</p>
+    <div style="margin-left:auto"><button onclick="backToStrategy()" style="display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;background:#0f3b5f;color:#fff;border:none;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">&#8592; Back to Strategy</button></div>
+  </div>
+    </div>
+    <nav class="nav-breadcrumb" aria-label="breadcrumb">
+      <a href="naps-ai-strategy-1.html">Strategy</a>
+      <span class="sep">›</span>
+      <span>Phase 1</span>
+      <span class="sep">›</span>
+      <span class="current">Communication Campaigns</span>
+    </nav>
+    <a class="back-btn" href="naps-ai-strategy-1.html">← Back to strategy</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div>
+    <div class="hero-badge">Phase 1 · Organizational Awareness</div>
+    <h2>📣 Communication Campaigns</h2>
+    <p class="desc">A structured ecosystem of communities, recurring calls, newsletters, structured trainings, portals, and champion networks working together to build broad AI awareness and sustained engagement across NAPS and Bayer globally.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="h-stat"><div class="h-stat-num">5</div><div class="h-stat-label">Active communities</div></div>
+    <div class="h-stat"><div class="h-stat-num">9</div><div class="h-stat-label">Recurring calls</div></div>
+    <div class="h-stat"><div class="h-stat-num">4</div><div class="h-stat-label">Newsletters</div></div>
+    <div class="h-stat"><div class="h-stat-num">5</div><div class="h-stat-label">Champion programs</div></div>
+  </div>
+</div>
+
+<!-- OVERVIEW SECTION -->
+<section>
+  <div class="section-head">
+    <div class="section-kicker">What's inside</div>
+    <div class="section-title">Six areas of communication activity</div>
+    <p class="section-desc">Select a category below to explore the specific forums, channels, programs, and resources active under each area.</p>
+  </div>
+  <div class="overview-grid">
+    <button class="ov-card active" onclick="switchTab(0,this)" aria-label="Communities and groups">
+      <div class="ov-emoji">🏘️</div>
+      <div class="ov-count">5 forums</div>
+      <div class="ov-title">Communities & Groups</div>
+      <div class="ov-desc">Global and regional Teams communities for continuous knowledge exchange, event coordination, and peer support.</div>
+      <div class="ov-arrow">Explore <span>→</span></div>
+    </button>
+    <button class="ov-card" onclick="switchTab(1,this)" aria-label="Recurring calls">
+      <div class="ov-emoji">📅</div>
+      <div class="ov-count">9 series</div>
+      <div class="ov-title">Recurring Calls & Series</div>
+      <div class="ov-desc">Bi-weekly showcases, monthly community calls, office hours, meetups, and show-and-tells creating regular live touchpoints.</div>
+      <div class="ov-arrow">Explore <span>→</span></div>
+    </button>
+    <button class="ov-card" onclick="switchTab(2,this)" aria-label="Newsletters">
+      <div class="ov-emoji">📰</div>
+      <div class="ov-count">4 digests</div>
+      <div class="ov-title">Newsletters & Digests</div>
+      <div class="ov-desc">Weekly and periodic written communications keeping stakeholders informed on AI tools, events, and responsible use guidelines.</div>
+      <div class="ov-arrow">Explore <span>→</span></div>
+    </button>
+    <button class="ov-card" onclick="switchTab(3,this)" aria-label="Structured trainings">
+      <div class="ov-emoji">🎓</div>
+      <div class="ov-count">5 programs</div>
+      <div class="ov-title">Structured Trainings</div>
+      <div class="ov-desc">Hands-on Copilot series, AI Fundamentals townhalls, themed event weeks, and self-paced modules for all roles.</div>
+      <div class="ov-arrow">Explore <span>→</span></div>
+    </button>
+    <button class="ov-card" onclick="switchTab(4,this)" aria-label="Portals and hubs">
+      <div class="ov-emoji">🗂️</div>
+      <div class="ov-count">6 portals</div>
+      <div class="ov-title">Portals & Knowledge Hubs</div>
+      <div class="ov-desc">Centralized SharePoint hubs, use case portfolios, responsible AI policies, Copilot KB, and the Agent Marketplace.</div>
+      <div class="ov-arrow">Explore <span>→</span></div>
+    </button>
+    <button class="ov-card" onclick="switchTab(5,this)" aria-label="Champions programs">
+      <div class="ov-emoji">🏆</div>
+      <div class="ov-count">5 programs</div>
+      <div class="ov-title">Champions & Multipliers</div>
+      <div class="ov-desc">Trained peer champions, buddy coaches, and community networks scaling AI adoption at squad, site, division, and function level.</div>
+      <div class="ov-arrow">Explore <span>→</span></div>
+    </button>
+  </div>
+</section>
+
+<!-- DETAIL TABS -->
+<section>
+  <div class="tabs-shell">
+    <div class="tabs-bar" id="tabsBar">
+      <button class="tab-btn active" onclick="switchTab(0,null)">🏘️ Communities <span class="cnt">5</span></button>
+      <button class="tab-btn" onclick="switchTab(1,null)">📅 Calls & Series <span class="cnt">9</span></button>
+      <button class="tab-btn" onclick="switchTab(2,null)">📰 Newsletters <span class="cnt">4</span></button>
+      <button class="tab-btn" onclick="switchTab(3,null)">🎓 Trainings <span class="cnt">5</span></button>
+      <button class="tab-btn" onclick="switchTab(4,null)">🗂️ Portals <span class="cnt">6</span></button>
+      <button class="tab-btn" onclick="switchTab(5,null)">🏆 Champions <span class="cnt">5</span></button>
+    </div>
+
+    <!-- TAB 0: COMMUNITIES -->
+    <div class="tab-pane active" id="tab-0">
+      <div class="tab-section">
+        <div class="tab-section-label">Global & Cross-functional</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#2c7da6">
+            <div class="card-top">
+              <div class="card-icon">🌐</div>
+              <div class="card-meta">
+                <div class="card-title">GenAI & Agentic Community</div>
+                <div class="card-owner">Lead: Sevda Adiguezel</div>
+              </div>
+            </div>
+            <div class="card-body">Global Teams/SharePoint hub for knowledge exchange, event announcements, recordings, guides, and updates. Includes sub-channels: 📚 Newcomers, 🔝 Events, 📌 Perplexity Testing, 📌 myGenAssist, 🔹 Learning Lab, and function-specific threads (Quality, Finance, Medical Affairs, etc.).</div>
+            <div class="card-tags">
+              <span class="tag freq">Continuous</span>
+              <span class="tag tool">Teams + SharePoint</span>
+              <span class="tag scope">Global</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#4f63b7">
+            <div class="card-top">
+              <div class="card-icon">🔬</div>
+              <div class="card-meta">
+                <div class="card-title">Perplexity Testing Channel</div>
+                <div class="card-owner">Lead: Sevda Adiguezel</div>
+              </div>
+            </div>
+            <div class="card-body">Dedicated Teams channel within the GenAI & Agentic community for questions, training materials, presentation recordings, and guided onboarding for Perplexity Enterprise users across Bayer.</div>
+            <div class="card-tags">
+              <span class="tag freq">Ongoing</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">Tool-specific</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2e8b57">
+            <div class="card-top">
+              <div class="card-icon">⚙️</div>
+              <div class="card-meta">
+                <div class="card-title">AI Native Engineering</div>
+                <div class="card-owner">Lead: Jacob Bacon (AINE squad)</div>
+              </div>
+            </div>
+            <div class="card-body">Technical community with monthly meetups covering engineering best practices, agentic AI patterns, and AI SDLC. Each session includes live demos from the team; recordings posted in the General channel.</div>
+            <div class="card-tags">
+              <span class="tag freq">Monthly</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">Technical / Engineering</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-section">
+        <div class="tab-section-label">Regional & Specialized</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#d08700">
+            <div class="card-top">
+              <div class="card-icon">🌎</div>
+              <div class="card-meta">
+                <div class="card-title">ai.club (LATAM) — Teams Group</div>
+                <div class="card-owner">Lead: Rafael Muniz</div>
+              </div>
+            </div>
+            <div class="card-body">Regional LATAM Teams community sharing recordings, meeting materials, and event communications from the ai.club initiative. Closely connected to the bi-weekly ai.talks series on Wednesdays.</div>
+            <div class="card-tags">
+              <span class="tag freq">Continuous</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">LATAM</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2c7da6">
+            <div class="card-top">
+              <div class="card-icon">🏛️</div>
+              <div class="card-meta">
+                <div class="card-title">GenAI Community (Structure & Governance)</div>
+                <div class="card-owner">Lead: Sevda Adiguezel</div>
+              </div>
+            </div>
+            <div class="card-body">Predecessor channel now restructured into GenAI & Agentic community. Governs community structure decisions, inclusion of Agentic AI scope, and membership organization including the Newcomers channel onboarding flow.</div>
+            <div class="card-tags">
+              <span class="tag freq">Continuous</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">Governance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 1: RECURRING CALLS -->
+    <div class="tab-pane" id="tab-1">
+      <div class="tab-section">
+        <div class="tab-section-label">Showcases & Community Calls</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#2c7da6">
+            <div class="card-top">
+              <div class="card-icon">📊</div>
+              <div class="card-meta">
+                <div class="card-title">GenAI Fridays — 2026</div>
+                <div class="card-owner">Lead: Philip Niemerg · GenAI in Product Supply</div>
+              </div>
+            </div>
+            <div class="card-body">Bi-weekly sessions covering current trends, tools, and real applications of GenAI in Product Supply. Materials, recordings, and the upcoming agenda are distributed via the GenAI TLDR newsletter and team channels.</div>
+            <div class="card-tags">
+              <span class="tag freq">Bi-weekly</span>
+              <span class="tag tool">Teams + Loop</span>
+              <span class="tag scope">Product Supply</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#4f63b7">
+            <div class="card-top">
+              <div class="card-icon">🌍</div>
+              <div class="card-meta">
+                <div class="card-title">Generative & Agentic AI — Monthly Community Call</div>
+                <div class="card-owner">Lead: Sevda Adiguezel · Co-lead: Agnieszka Chromiec</div>
+              </div>
+            </div>
+            <div class="card-body">Global monthly call with structured agenda, invited speakers, and deep-dive presentations. Slides, recordings, and monthly highlights are published after each session on Viva Engage and SharePoint.</div>
+            <div class="card-tags">
+              <span class="tag freq">Monthly</span>
+              <span class="tag tool">Teams + Viva Engage</span>
+              <span class="tag scope">Global</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2e8b57">
+            <div class="card-top">
+              <div class="card-icon">☁️</div>
+              <div class="card-meta">
+                <div class="card-title">AWS Office Hours for GenAI & Agentic AI</div>
+                <div class="card-owner">Organizer: Sevda Adiguezel · AWS SAs & specialists</div>
+              </div>
+            </div>
+            <div class="card-body">Live sessions with AWS Solutions Architects and experts to unblock technical challenges in architecture, governance, design patterns, and Amazon Bedrock. Announced via the GenAI & Agentic community channel and the Events sub-channel.</div>
+            <div class="card-tags">
+              <span class="tag freq">Ad hoc</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">Technical / AWS</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2b88a3">
+            <div class="card-top">
+              <div class="card-icon">🤖</div>
+              <div class="card-meta">
+                <div class="card-title">myGenAssist Users Meet Up</div>
+                <div class="card-owner">Lead: myGenAssist team (e.g. Eldos Kayrat)</div>
+              </div>
+            </div>
+            <div class="card-body">Recurring meetup series with walkthrough demos of myGenAssist features: Deep Agent, GenUI, AI Hub, Knowledge Base, and more. Recording shared post-session. Next session announced via Outlook invite.</div>
+            <div class="card-tags">
+              <span class="tag freq">Recurring series</span>
+              <span class="tag tool">Teams + Outlook</span>
+              <span class="tag scope">myGenAssist users</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-section">
+        <div class="tab-section-label">Show & Tell · Learning · Governance</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#d08700">
+            <div class="card-top">
+              <div class="card-icon">🎤</div>
+              <div class="card-meta">
+                <div class="card-title">Pathfinders — GenAI in Action Show & Tell</div>
+                <div class="card-owner">Lead: Charles Shank</div>
+              </div>
+            </div>
+            <div class="card-body">Recurring "Show & Tell" sessions for hands-on learning and live AI demonstrations across the Pathfinders community. Multiple dates scheduled throughout the year with open participation.</div>
+            <div class="card-tags">
+              <span class="tag freq">Recurring</span>
+              <span class="tag tool">Teams Meeting</span>
+              <span class="tag scope">Pathfinders</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#6a3ba8">
+            <div class="card-top">
+              <div class="card-icon">🧭</div>
+              <div class="card-meta">
+                <div class="card-title">Pathfinders — AI Strategy Steering Team</div>
+                <div class="card-owner">Lead: Charles Shank</div>
+              </div>
+            </div>
+            <div class="card-body">Quarterly 60-minute steering discussion for a focused team working on AI impact and responsible adoption strategy. Provides a governance checkpoint on Pathfinders direction, priorities, and progress.</div>
+            <div class="card-tags">
+              <span class="tag freq">Quarterly</span>
+              <span class="tag tool">Outlook / Teams</span>
+              <span class="tag scope">Governance</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#d08700">
+            <div class="card-top">
+              <div class="card-icon">🎙️</div>
+              <div class="card-meta">
+                <div class="card-title">ai.talks (ai.club)</div>
+                <div class="card-owner">Lead: Rafael Muniz</div>
+              </div>
+            </div>
+            <div class="card-body">Bi-weekly Wednesday sessions hosted as a lightweight talk-show format featuring demos, AI trends, and real use cases for LATAM teams. Casual and practical format accessible to all roles.</div>
+            <div class="card-tags">
+              <span class="tag freq">Bi-weekly · Wednesdays</span>
+              <span class="tag tool">Teams + Outlook</span>
+              <span class="tag scope">LATAM</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2e8b57">
+            <div class="card-top">
+              <div class="card-icon">🧪</div>
+              <div class="card-meta">
+                <div class="card-title">AI Learning Lab & Hub (Co-creation)</div>
+                <div class="card-owner">Lead: Mario Kossmann · Anna · Matthias</div>
+              </div>
+            </div>
+            <div class="card-body">Collaborative initiative to co-create the AI Learning Hub (go/LearnAIBART) and build shared upskilling resources. Invites contributors to shape content, learning paths, and community-driven education assets.</div>
+            <div class="card-tags">
+              <span class="tag freq">Ongoing</span>
+              <span class="tag tool">Teams · go/LearnAIBART</span>
+              <span class="tag scope">Learning & co-creation</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2c7da6">
+            <div class="card-top">
+              <div class="card-icon">🏢</div>
+              <div class="card-meta">
+                <div class="card-title">BEAT Open Office Hour</div>
+                <div class="card-owner">Hosted by: BEAT team</div>
+              </div>
+            </div>
+            <div class="card-body">Recurring open office hour sessions hosted by the BEAT team with high attendance. Multiple calendar entries support broad accessibility for teams with AI-related operational or technical questions.</div>
+            <div class="card-tags">
+              <span class="tag freq">Recurring (multiple dates)</span>
+              <span class="tag tool">Teams Meeting</span>
+              <span class="tag scope">BEAT / IT</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: NEWSLETTERS -->
+    <div class="tab-pane" id="tab-2">
+      <div class="cards-grid">
+        <div class="comm-card" style="--accent-bar:#2c7da6">
+          <div class="card-top">
+            <div class="card-icon">⚡</div>
+            <div class="card-meta">
+              <div class="card-title">GenAI — TLDR</div>
+              <div class="card-owner">Authors: Philip Niemerg · Alex Ramos Soszna</div>
+            </div>
+          </div>
+          <div class="card-body">Weekly newsletter designed to "keep you informed, inspired." Covers GenAI Fridays events, App Store opportunities, AI trends, and curated content. Growing subscriber base; directly connected to Product Supply's AI momentum.</div>
+          <div class="card-tags">
+            <span class="tag freq">Weekly</span>
+            <span class="tag tool">Outlook · Loop</span>
+            <span class="tag scope">Product Supply</span>
+          </div>
+        </div>
+        <div class="comm-card" style="--accent-bar:#4f63b7">
+          <div class="card-top">
+            <div class="card-icon">🧬</div>
+            <div class="card-meta">
+              <div class="card-title">Byte-Sized AI Insights</div>
+              <div class="card-owner">Authors: Dr. Matthias Orlowski · Tobias Huetter · others</div>
+            </div>
+          </div>
+          <div class="card-body">Numbered SharePoint-hosted newsletter editions (e.g., #40, #42) from the Pharma DS & AI Factory. Covers AI toolbox updates, AI @ Bayer news, developer topics, and legal/ethical considerations. Subscribe via email to receive new editions.</div>
+          <div class="card-tags">
+            <span class="tag freq">Periodic</span>
+            <span class="tag tool">SharePoint</span>
+            <span class="tag scope">Pharma DS & AI Factory</span>
+          </div>
+        </div>
+        <div class="comm-card" style="--accent-bar:#2e8b57">
+          <div class="card-top">
+            <div class="card-icon">💼</div>
+            <div class="card-meta">
+              <div class="card-title">Microsoft 365 Copilot Insights</div>
+              <div class="card-owner">Author: Gerwin Sturm</div>
+            </div>
+          </div>
+          <div class="card-body">Periodic newsletter recapping Copilot Days events and sharing practical tips, feature updates, and links to recordings and training resources for Microsoft 365 Copilot users across Bayer.</div>
+          <div class="card-tags">
+            <span class="tag freq">Periodic</span>
+            <span class="tag tool">Outlook</span>
+            <span class="tag scope">Microsoft 365 Copilot</span>
+          </div>
+        </div>
+        <div class="comm-card" style="--accent-bar:#d08700">
+          <div class="card-top">
+            <div class="card-icon">🖨️</div>
+            <div class="card-meta">
+              <div class="card-title">PCC Newsletter (IT Foundation)</div>
+              <div class="card-owner">Author: Nidhi Sargar</div>
+            </div>
+          </div>
+          <div class="card-body">Monthly newsletter (e.g., March 2026 edition) announced on Viva Engage with a PDF download. Covers IT Foundation topics and explicitly references alignment with the organization's Agentic AI vision and roadmap.</div>
+          <div class="card-tags">
+            <span class="tag freq">Monthly</span>
+            <span class="tag tool">Viva Engage · PDF</span>
+            <span class="tag scope">IT Foundation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: STRUCTURED TRAININGS -->
+    <div class="tab-pane" id="tab-3">
+      <div class="tab-section">
+        <div class="tab-section-label">Microsoft Copilot</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#4f63b7">
+            <div class="card-top">
+              <div class="card-icon">🖥️</div>
+              <div class="card-meta">
+                <div class="card-title">Copilot in Action</div>
+                <div class="card-owner">Lead: Gerwin Sturm</div>
+              </div>
+            </div>
+            <div class="card-body">Structured hands-on series organized into five chapters: Foundations, Productivity, Content, Data, and Agents. Each chapter runs 90 minutes with multiple time slots offered, accommodating different team schedules. One-pager available on SharePoint.</div>
+            <div class="card-tags">
+              <span class="tag freq">Series · 90 min/chapter</span>
+              <span class="tag tool">Teams + SharePoint</span>
+              <span class="tag scope">Copilot · All roles</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2c7da6">
+            <div class="card-top">
+              <div class="card-icon">📅</div>
+              <div class="card-meta">
+                <div class="card-title">Copilot Days</div>
+                <div class="card-owner">Lead: Gerwin Sturm</div>
+              </div>
+            </div>
+            <div class="card-body">Themed event week with daily sessions covering different M365 applications: Outlook, Teams, PowerPoint, Word, and more. Post-event recordings and materials made available on a dedicated SharePoint page.</div>
+            <div class="card-tags">
+              <span class="tag freq">Event week</span>
+              <span class="tag tool">SharePoint · Outlook</span>
+              <span class="tag scope">Microsoft 365</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-section">
+        <div class="tab-section-label">AI Fundamentals & Self-paced Learning</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#2e8b57">
+            <div class="card-top">
+              <div class="card-icon">🏫</div>
+              <div class="card-meta">
+                <div class="card-title">AI Fundamentals @ Bayer (Crop Science-wide)</div>
+                <div class="card-owner">Promoted via: GenAI in PS team · GenAI TLDR</div>
+              </div>
+            </div>
+            <div class="card-body">Townhall-style session providing AI context and awareness for all of Crop Science. Registration required; additional sessions scheduled on demand if capacity fills. Covers what AI is, where it works best, and how to get started.</div>
+            <div class="card-tags">
+              <span class="tag freq">Townhall · On demand</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">Crop Science</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2b88a3">
+            <div class="card-top">
+              <div class="card-icon">📖</div>
+              <div class="card-meta">
+                <div class="card-title">AI Fundamentals — Section 1 (SharePoint module)</div>
+                <div class="card-owner">Author: Aaron Zeveski</div>
+              </div>
+            </div>
+            <div class="card-body">Self-paced educational module covering the history of AI, core concepts, and guidance on where AI performs best. Part of a broader educational trail on the Pipeline & Product Platform SharePoint, accessible anytime.</div>
+            <div class="card-tags">
+              <span class="tag freq">Self-paced</span>
+              <span class="tag tool">SharePoint</span>
+              <span class="tag scope">Foundational · All roles</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#6a3ba8">
+            <div class="card-top">
+              <div class="card-icon">🛠️</div>
+              <div class="card-meta">
+                <div class="card-title">Copilot Studio — Internal Guides (Agents)</div>
+                <div class="card-owner">Lead: Gerwin Sturm · co-authors</div>
+              </div>
+            </div>
+            <div class="card-body">User Guide and Setup Guide for creating agents in Copilot Studio, with sandbox recommendations and cost-awareness alerts. Practical documentation enabling teams to build and test agents safely before deploying at scale.</div>
+            <div class="card-tags">
+              <span class="tag freq">Self-service</span>
+              <span class="tag tool">SharePoint · Word</span>
+              <span class="tag scope">Copilot Studio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: PORTALS & HUBS -->
+    <div class="tab-pane" id="tab-4">
+      <div class="tab-section">
+        <div class="tab-section-label">Primary Hubs</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#2c7da6">
+            <div class="card-top">
+              <div class="card-icon">🏠</div>
+              <div class="card-meta">
+                <div class="card-title">Generative & Agentic AI Home / Hub</div>
+                <div class="card-owner">Owner: Sevda Adiguezel</div>
+              </div>
+            </div>
+            <div class="card-body">Central SharePoint home aggregating community links, event materials, tool resources, and all GenAI/Agentic assets. The main entry point for the global Bayer GenAI community. Continuously updated with new content and announcements.</div>
+            <div class="card-tags">
+              <span class="tag freq">Continuously updated</span>
+              <span class="tag tool">SharePoint</span>
+              <span class="tag scope">Global</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2e8b57">
+            <div class="card-top">
+              <div class="card-icon">📋</div>
+              <div class="card-meta">
+                <div class="card-title">GenAI Portfolio (go/genaiportfolio)</div>
+                <div class="card-owner">Owners: Sevda Adiguezel · Magdalena Wisniewska</div>
+              </div>
+            </div>
+            <div class="card-body">Regularly updated library of GenAI use cases with filters by division, technology, and status. Teams can submit new ideas, browse validated examples, and collaborate on emerging use cases across the enterprise.</div>
+            <div class="card-tags">
+              <span class="tag freq">Regularly updated</span>
+              <span class="tag tool">SharePoint · go/genaiportfolio</span>
+              <span class="tag scope">Enterprise-wide</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#d08700">
+            <div class="card-top">
+              <div class="card-icon">📄</div>
+              <div class="card-meta">
+                <div class="card-title">Global GenAI & Agentic Use Case Portfolio — Guideline</div>
+                <div class="card-owner">Owner: Sevda Adiguezel</div>
+              </div>
+            </div>
+            <div class="card-body">PDF guideline explaining how to navigate and submit to the Global Use Case Portfolio — covering filters, status definitions, division tags, and technology categories. Helps teams position new ideas within the portfolio correctly.</div>
+            <div class="card-tags">
+              <span class="tag freq">Reference document</span>
+              <span class="tag tool">SharePoint · PDF</span>
+              <span class="tag scope">Enterprise governance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-section">
+        <div class="tab-section-label">Tool-Specific & Governance Portals</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#6a3ba8">
+            <div class="card-top">
+              <div class="card-icon">⚖️</div>
+              <div class="card-meta">
+                <div class="card-title">Responsible AI — Guidance & Rules</div>
+                <div class="card-owner">Authors: Gerwin Sturm · Michele Taylor</div>
+              </div>
+            </div>
+            <div class="card-body">SharePoint portal aggregating responsible AI rules, sensitive data handling guidelines, Copilot-specific policies, and usage boundaries. The authoritative reference for compliance-related questions about AI tools and deployments at Bayer.</div>
+            <div class="card-tags">
+              <span class="tag freq">Continuously updated</span>
+              <span class="tag tool">SharePoint</span>
+              <span class="tag scope">Governance / Compliance</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#4f63b7">
+            <div class="card-top">
+              <div class="card-icon">💼</div>
+              <div class="card-meta">
+                <div class="card-title">Microsoft 365 Copilot Portal & Knowledge Base</div>
+                <div class="card-owner">Curated by: Gerwin Sturm · Michele Taylor</div>
+              </div>
+            </div>
+            <div class="card-body">Full SharePoint portal covering Copilot FAQs, onboarding presentation, license request process, and complementary ServiceNow knowledge base articles for IT-supported Copilot issues. One-stop shop for all Copilot user needs.</div>
+            <div class="card-tags">
+              <span class="tag freq">Continuously updated</span>
+              <span class="tag tool">SharePoint · ServiceNow KB</span>
+              <span class="tag scope">Copilot · IT support</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2b88a3">
+            <div class="card-top">
+              <div class="card-icon">🛒</div>
+              <div class="card-meta">
+                <div class="card-title">Agent Marketplace (GenAI in PS)</div>
+                <div class="card-owner">Referenced by: GenAI in PS · Pathfinders</div>
+              </div>
+            </div>
+            <div class="card-body">Marketplace for approved AI agents and prompt templates available to Product Supply teams. Surfaced in Pathfinders Show & Tell sessions and in the GenAI TLDR newsletter; provides a curated starting point for teams adopting agent-based workflows.</div>
+            <div class="card-tags">
+              <span class="tag freq">Continuously updated</span>
+              <span class="tag tool">Internal portal</span>
+              <span class="tag scope">Product Supply · Agents</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: CHAMPIONS -->
+    <div class="tab-pane" id="tab-5">
+      <div class="tab-section">
+        <div class="tab-section-label">Division-level Programs</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#2c7da6">
+            <div class="card-top">
+              <div class="card-icon">⭐</div>
+              <div class="card-meta">
+                <div class="card-title">PS AI Champions Program</div>
+                <div class="card-owner">Lead: Maria Engelmann</div>
+              </div>
+            </div>
+            <div class="card-body">Structured champion model for Product Supply with clear monthly expectations: ~4–6 hours/month, one peer training session per month, and participation in the monthly PS AI Community Hour. Champions serve as the local bridge between the CoE and their teams.</div>
+            <div class="card-tags">
+              <span class="tag freq">Monthly commitment</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">Product Supply</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#4f63b7">
+            <div class="card-top">
+              <div class="card-icon">👩‍💻</div>
+              <div class="card-meta">
+                <div class="card-title">DDE "AI Champs" (by Squad)</div>
+                <div class="card-owner">Lead: Amy Sanders</div>
+              </div>
+            </div>
+            <div class="card-body">Squad-level champion model: AI Champs are trained first, then responsible for upskilling their own squads. Each champion submits an execution plan outlining how they will enable their team. Described for DTS and Business squads.</div>
+            <div class="card-tags">
+              <span class="tag freq">Squad-level</span>
+              <span class="tag tool">Outlook</span>
+              <span class="tag scope">DDE / Digital</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#2e8b57">
+            <div class="card-top">
+              <div class="card-icon">🤝</div>
+              <div class="card-meta">
+                <div class="card-title">AI Champions Buddy Program (GBS Finance)</div>
+                <div class="card-owner">Lead: Elzbieta Prokopowska</div>
+              </div>
+            </div>
+            <div class="card-body">Coaches are paired with coachees to help develop and adopt practical AI ideas. Cross-center network connects champions and learners across different GBS Finance locations to drive peer-based AI adoption.</div>
+            <div class="card-tags">
+              <span class="tag freq">Ongoing</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">GBS Finance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-section">
+        <div class="tab-section-label">Function-specific Networks</div>
+        <div class="cards-grid">
+          <div class="comm-card" style="--accent-bar:#d08700">
+            <div class="card-top">
+              <div class="card-icon">💊</div>
+              <div class="card-meta">
+                <div class="card-title">Medical Affairs AI Champions Network</div>
+                <div class="card-owner">Lead: Clara HyoSeoung Kang</div>
+              </div>
+            </div>
+            <div class="card-body">Network recruiting local/cluster AI champions who act as the bridge between the global Medical Affairs AI core team and their regional organization. Champions facilitate adoption, gather local needs, and relay feedback to the central strategy.</div>
+            <div class="card-tags">
+              <span class="tag freq">Ongoing</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">Medical Affairs · Global/Local</span>
+            </div>
+          </div>
+          <div class="comm-card" style="--accent-bar:#6a3ba8">
+            <div class="card-top">
+              <div class="card-icon">🛒</div>
+              <div class="card-meta">
+                <div class="card-title">Procurement GenAI CoP (Champion Model)</div>
+                <div class="card-owner">Leads: Ralf Heinecke · Arjan Kuiper</div>
+              </div>
+            </div>
+            <div class="card-body">Community of Practice (CoP) and workshop series for the Procurement function using a champion model to drive GenAI adoption. Focuses on practical enablement within Procurement-specific workflows and use cases.</div>
+            <div class="card-tags">
+              <span class="tag freq">CoP / Workshop</span>
+              <span class="tag tool">Teams</span>
+              <span class="tag scope">Procurement</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-box">
+    <span>NAPS AI Strategy · Phase 1 — Organizational Awareness · Communication Campaigns</span>
+    <span>Pathfinders 2.0 · North American Product Supply</span>
+  </div>
+</footer>
+
+<script>
+  const tabPanes = document.querySelectorAll('.tab-pane');
+  const tabBtns  = document.querySelectorAll('.tab-btn');
+  const ovCards  = document.querySelectorAll('.ov-card');
+
+  function switchTab(idx, ovCard) {
+    tabPanes.forEach((p,i) => p.classList.toggle('active', i===idx));
+    tabBtns.forEach((b,i)  => b.classList.toggle('active', i===idx));
+    ovCards.forEach((c,i)  => c.classList.toggle('active', i===idx));
+    if(ovCard) {
+      ovCard.scrollIntoView({behavior:'smooth', block:'nearest'});
+      const tabsEl = document.querySelector('.tabs-shell');
+      setTimeout(()=> tabsEl.scrollIntoView({behavior:'smooth', block:'start'}), 120);
+    }
+  }
+</script>
+<script>
+function backToStrategy(){
+  if (window.opener) {
+    // Opened as popup from index — close this window and return focus to opener
+    window.close();
+  } else {
+    // Opened directly — navigate to index
+    window.location.href = '0-naps-ai-strategy.html';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Innovation Board Review — NAPS AI Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f3b5f;--navy-2:#174c73;--green:#8dd63f;--teal:#bfe8f3;--sky:#dff4fb;
+  --bg:#f5f7f8;--surface:#ffffff;--surface-2:#f9fbfc;--text:#173a56;--muted:#4f6778;
+  --line:#d7e8ef;--line-2:#c6dbe5;--glow:rgba(141,214,63,.18);--r:22px;
+  --shadow:0 16px 42px rgba(17,56,86,.08);--shadow-lg:0 24px 56px rgba(17,56,86,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+a{text-decoration:none;color:inherit}img,svg{display:block;max-width:100%}button{font:inherit;cursor:pointer}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.85;background:radial-gradient(circle at 16% 18%,rgba(191,232,243,.8) 0 10px,transparent 11px),radial-gradient(circle at 28% 72%,rgba(191,232,243,.65) 0 8px,transparent 9px),radial-gradient(circle at 55% 10%,rgba(191,232,243,.55) 0 9px,transparent 10px),linear-gradient(120deg,transparent 0 18%,rgba(191,232,243,.22) 18.2% 18.5%,transparent 18.7% 100%),linear-gradient(60deg,transparent 0 31%,rgba(191,232,243,.16) 31.2% 31.5%,transparent 31.7% 100%)}
+body::after{content:"";position:fixed;left:-5%;bottom:-8%;width:58vw;height:60vh;pointer-events:none;opacity:.36;background:linear-gradient(60deg,transparent 0 49.3%,var(--line) 49.4% 49.8%,transparent 49.9%),linear-gradient(-60deg,transparent 0 49.3%,var(--line) 49.4% 49.8%,transparent 49.9%),radial-gradient(circle at 25% 50%,var(--teal) 0 7px,transparent 8px),radial-gradient(circle at 75% 50%,var(--teal) 0 7px,transparent 8px);transform:rotate(-2deg)}
+.nav{position:sticky;top:0;z-index:20;background:rgba(245,247,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1280px;margin:auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:16px}
+.brand h1{font-size:1.02rem;font-weight:800;color:var(--navy)}
+.brand p{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:var(--navy);color:#fff;font-size:.86rem;font-weight:700;border:none;transition:.2s}
+.back-btn:hover{background:var(--navy-2)}
+.phase-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#eef8fc;border:1px solid var(--line);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--navy-2)}
+.phase-pill::before{content:"";width:8px;height:8px;border-radius:50%;background:#4f63b7}
+.hero{max-width:1280px;margin:0 auto;padding:60px 28px 52px;text-align:center;position:relative}
+.kicker{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;background:#eef8fc;border:1px solid var(--line);font-size:.76rem;font-weight:700;color:var(--navy);letter-spacing:.07em;text-transform:uppercase;margin-bottom:18px}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 8px var(--glow)}
+.hero h2{font-family:"Source Serif 4",serif;font-size:clamp(2.4rem,4vw,4.4rem);line-height:1.03;color:var(--navy);max-width:900px;margin:0 auto 18px}
+.hero h2 span{color:var(--navy-2)}
+.hero-lead{max-width:760px;color:var(--muted);font-size:1.06rem;line-height:1.78;margin:0 auto 40px}
+.hero-stats{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 22px;min-width:148px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4f63b7,#2c7da6)}
+.stat-num{font-size:2rem;font-weight:800;color:var(--navy)}.stat-label{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:4px}
+section{max-width:1280px;margin:0 auto;padding:20px 28px 48px;position:relative}
+.section-head{text-align:center;max-width:760px;margin:0 auto 28px}
+.section-kicker{font-size:.74rem;text-transform:uppercase;letter-spacing:.11em;color:var(--navy-2);font-weight:800;margin-bottom:8px}
+.section-title{font-family:"Source Serif 4",serif;font-size:clamp(1.8rem,3vw,2.8rem);line-height:1.1;color:var(--navy);margin-bottom:10px}
+.section-desc{font-size:1rem;color:var(--muted);line-height:1.7}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:var(--shadow)}
+.flow-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:10px}
+.flow-steps::before{content:"";position:absolute;top:44px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--line),var(--line-2),var(--line));z-index:0}
+.flow-step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 10px}
+.flow-num{width:90px;height:90px;border-radius:50%;background:#fff;border:2px solid #4f63b7;display:grid;place-items:center;box-shadow:0 0 0 10px rgba(255,255,255,.85),0 0 0 14px rgba(79,99,183,.12);margin-bottom:14px}
+.flow-num svg{width:32px;height:32px}
+.flow-label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--navy-2);margin-bottom:5px}
+.flow-name{font-size:1.02rem;font-weight:800;color:var(--navy);line-height:1.2;margin-bottom:8px}
+.flow-desc{font-size:.86rem;color:var(--muted);line-height:1.6;max-width:180px}
+.members-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.member-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:.2s transform,.2s box-shadow}
+.member-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.member-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.member-card.core::before{background:linear-gradient(90deg,#0f3b5f,#2c7da6)}
+.member-card.extended::before{background:linear-gradient(90deg,#4f63b7,#6b8dd6)}
+.member-card.steer::before{background:linear-gradient(90deg,#2c7a35,#5ab870)}
+.role-badge{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.badge-core{background:#e8f0fb;color:#1d5f95}.badge-ext{background:#eef8fc;color:var(--navy-2)}.badge-steer{background:#f0fae9;color:#2c7a35}
+.member-card h4{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:6px}
+.member-card p{font-size:.88rem;color:var(--muted);line-height:1.6}
+.member-card .resp{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:.8rem;color:var(--text);font-weight:600}
+.quorum-strip{background:linear-gradient(90deg,#eef8fc,#f6f9fc);border:1px solid var(--line);border-radius:16px;padding:16px 20px;display:flex;gap:14px;align-items:center;margin-top:14px}
+.quorum-icon{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;flex:0 0 auto}
+.quorum-strip p{font-size:.88rem;color:var(--text);line-height:1.6}
+.quorum-strip strong{color:var(--navy)}
+.pipeline{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pipe-card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.pipe-num{width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:1.1rem;display:grid;place-items:center;margin-bottom:14px}
+.pipe-card h4{font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+.pipe-card p{font-size:.9rem;color:var(--muted);line-height:1.65}
+.pipe-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pipe-tag{padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:#f4fafc;color:var(--muted);font-size:.76rem;font-weight:700}
+.agenda-grid{display:grid;gap:12px}
+.agenda-item{display:grid;grid-template-columns:80px 1fr;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.agenda-time{background:var(--navy);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 12px;text-align:center}
+.agenda-time .mins{font-size:1.4rem;font-weight:800;line-height:1}
+.agenda-time .unit{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;opacity:.8;margin-top:3px}
+.agenda-body{padding:16px 20px}
+.agenda-body h4{font-size:.98rem;font-weight:800;color:var(--navy);margin-bottom:5px}
+.agenda-body p{font-size:.87rem;color:var(--muted);line-height:1.6}
+.agenda-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.agenda-tag{padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:#f4fafc;color:var(--muted);font-size:.72rem;font-weight:700}
+.cd-row{display:flex;gap:10px;align-items:flex-start;font-size:.84rem;padding:6px 0;border-bottom:1px solid var(--line)}
+.cd-row:last-child{border-bottom:none}
+.cd-label{font-weight:800;color:var(--navy-2);min-width:80px;flex-shrink:0}
+.cd-val{color:var(--muted);line-height:1.5}
+.outcomes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.outcome-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.outcome-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+.oc-approve::before{background:#2c7a35}.oc-queue::before{background:#0f3b5f}.oc-redirect::before{background:#b07500}.oc-close::before{background:#9e3535}
+.outcome-icon{font-size:1.7rem;margin-bottom:12px}
+.outcome-card h4{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+.outcome-card p{font-size:.88rem;color:var(--muted);line-height:1.6}
+.outcome-action{margin-top:12px;padding:8px 12px;border-radius:12px;font-size:.8rem;font-weight:700;background:#f4fafc;border:1px solid var(--line);color:var(--navy)}
+.feedback-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.fb-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.fb-num{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#4f63b7,#2c7da6);color:#fff;font-weight:800;display:grid;place-items:center;margin-bottom:14px;font-size:1rem}
+.fb-card h4{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+.fb-card p{font-size:.88rem;color:var(--muted);line-height:1.65}
+.fb-sla{margin-top:12px;padding:8px 12px;border-radius:12px;background:#f4fafc;border:1px solid var(--line);font-size:.8rem;font-weight:700;color:var(--navy-2)}
+.raci-wrap{overflow:auto;border:1px solid var(--line);border-radius:20px}
+table{width:100%;border-collapse:collapse;background:#fff;min-width:660px}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:center;font-size:.86rem}
+th:first-child,td:first-child{text-align:left;font-weight:700;color:var(--navy)}
+th{background:#f1f8fb;color:var(--navy);font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.rb{display:inline-block;padding:4px 8px;border-radius:999px;font-weight:800;font-size:.72rem;margin:1px}
+.rb-r{background:#e9f8f2;color:#238b55}.rb-a{background:#e9f3fb;color:#1d5f95}.rb-c{background:#fff6e7;color:#b07500}.rb-i{background:#f3f4f6;color:#5d6b78}
+.footer-note{max-width:1280px;margin:0 auto;padding:0 28px 44px;text-align:center;font-size:.84rem;color:var(--muted)}
+@media(max-width:1080px){.members-grid{grid-template-columns:repeat(2,1fr)}.flow-steps{grid-template-columns:repeat(3,1fr)}.flow-steps::before{display:none}.outcomes-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.hero{padding:36px 18px 38px}section{padding:18px 18px 36px}.pipeline,.members-grid,.feedback-grid,.outcomes-grid{grid-template-columns:1fr}.flow-steps{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <svg width="42" height="42" viewBox="0 0 64 64" aria-label="NAPS AI logo">
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8dd63f"/><stop offset="1" stop-color="#bfe8f3"/></linearGradient></defs>
+        <circle cx="32" cy="32" r="28" fill="none" stroke="url(#g1)" stroke-width="4"/>
+        <circle cx="32" cy="32" r="22" fill="none" stroke="#0f3b5f" stroke-width="2" opacity=".38"/>
+        <path d="M32 10v44M10 32h44" stroke="#0f3b5f" stroke-width="2.8"/>
+      </svg>
+      <div><h1>NAPS AI Strategy</h1><p>North American Product Supply</p></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div class="phase-pill">Phase 3 — Solution Alignment</div>
+      <button class="back-btn" onclick="history.back()">← Back to Strategy</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="kicker">Innovation Board Review</div>
+  <h2>A structured governance committee that <span>turns validated opportunities</span> into clear decisions.</h2>
+  <p class="hero-lead">The Innovation Board Review (IBR) is the monthly governance body responsible for reviewing validated AI and analytics submissions, aligning on delivery paths, and allocating resources. This page describes how the committee works — its members, cadence, meeting structure, decision flow, and feedback process.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">Monthly</div><div class="stat-label">Meeting cadence</div></div>
+    <div class="stat"><div class="stat-num">90 min</div><div class="stat-label">Session length</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Voting members</div></div>
+    <div class="stat"><div class="stat-num">5/7</div><div class="stat-label">Quorum required</div></div>
+    <div class="stat"><div class="stat-num">5 days</div><div class="stat-label">Pre-read window</div></div>
+  </div>
+</div>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">How the IBR works</div>
+    <div class="section-title">From intake to delivery decision in five steps</div>
+    <div class="section-desc">Every submission that clears Phase 2 triage enters the IBR pipeline. The CoE prepares the review packet, distributes it to board members, and facilitates the session. Decisions reach submitters within 5 business days.</div>
+  </div>
+  <div class="card">
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><path d="M9 12h6M9 16h6M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div>
+        <div class="flow-label">Step 1</div><div class="flow-name">Packet Assembly</div>
+        <div class="flow-desc">CoE compiles validated submissions with supporting data and preliminary priority signals</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div class="flow-label">Step 2</div><div class="flow-name">Pre-read Distribution</div>
+        <div class="flow-desc">Packets sent to all members 5 business days before the session</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="flow-label">Step 3</div><div class="flow-name">Board Session</div>
+        <div class="flow-desc">90-minute structured meeting with time-boxed agenda, discussion, and decisions</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="flow-label">Step 4</div><div class="flow-name">Decision &amp; Assignment</div>
+        <div class="flow-desc">Each submission receives an outcome: Approve, Queue, Redirect, or Close</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num"><svg viewBox="0 0 24 24" fill="none" stroke="#0f3b5f" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="flow-label">Step 5</div><div class="flow-name">Submitter Feedback</div>
+        <div class="flow-desc">Structured notice with outcome, score breakdown, and improvement path within 5 days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Committee composition</div>
+    <div class="section-title">Board members and their roles</div>
+    <div class="section-desc">The IBR has seven core voting members, each providing a critical lens for evaluating submissions. Tier 3 Strategic Bets are escalated to the Steering Committee for budget and executive approval.</div>
+  </div>
+  <div class="members-grid">
+    <div class="member-card core">
+      <span class="role-badge badge-core">Chair · Core</span>
+      <h4>CoE Lead</h4>
+      <p>Owns the intake process, chairs every session, and ensures all submissions are complete before review starts.</p>
+      <div class="resp">Facilitates agenda · Manages quorum · Owns decision record</div>
+    </div>
+    <div class="member-card core">
+      <span class="role-badge badge-core">Core member</span>
+      <h4>Operations Lead</h4>
+      <p>Validates pain points, scopes affected populations, and confirms outcomes align with operations priorities.</p>
+      <div class="resp">Business case review · Stakeholder scope confirmation</div>
+    </div>
+    <div class="member-card core">
+      <span class="role-badge badge-core">Core member</span>
+      <h4>Technology Lead</h4>
+      <p>Assesses technical feasibility, data availability, integration risks, and NAPS architecture compatibility.</p>
+      <div class="resp">Tech feasibility · Data readiness · Architecture fit</div>
+    </div>
+    <div class="member-card core">
+      <span class="role-badge badge-core">Core member</span>
+      <h4>Compliance / Responsible AI</h4>
+      <p>Reviews regulatory exposure, data privacy implications, and Bayer Responsible AI guidelines. Flags escalation needs.</p>
+      <div class="resp">Risk review · Privacy · RAI alignment</div>
+    </div>
+    <div class="member-card extended">
+      <span class="role-badge badge-ext">Core member</span>
+      <h4>Finance Lead</h4>
+      <p>Validates ROI assumptions, reviews investment requirements, and provides financial lens for competing initiatives.</p>
+      <div class="resp">ROI validation · Budget review · Financial trade-offs</div>
+    </div>
+    <div class="member-card extended">
+      <span class="role-badge badge-ext">Core member</span>
+      <h4>Field Operations Rep</h4>
+      <p>Provides on-the-ground perspective for requests from field operations, manufacturing, or site support functions.</p>
+      <div class="resp">Field context · Operational feasibility assessment</div>
+    </div>
+    <div class="member-card extended">
+      <span class="role-badge badge-ext">Core member</span>
+      <h4>Data &amp; Analytics Lead</h4>
+      <p>Evaluates data readiness, analytical feasibility, and confirms solutions can be supported by NAPS data assets.</p>
+      <div class="resp">Data architecture · Analytical scope · Asset availability</div>
+    </div>
+    <div class="member-card steer">
+      <span class="role-badge badge-steer">Escalation path</span>
+      <h4>Steering Committee</h4>
+      <p>Receives escalation reports for Tier 3 Strategic Bets, major funding decisions, and initiatives requiring executive sponsorship resolution.</p>
+      <div class="resp">T3 approval · Budget authority · Executive sponsorship</div>
+    </div>
+  </div>
+  <div class="quorum-strip">
+    <div class="quorum-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+    <p><strong>Quorum policy:</strong> A minimum of 5 of 7 core voting members must be present for any decision to be valid. If quorum is not met, the session proceeds as a working review only — no binding decisions are recorded. Approvals are deferred to an async vote or the following session.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Preparation protocol</div>
+    <div class="section-title">What happens before the board convenes</div>
+    <div class="section-desc">Quality decisions require quality preparation. Every role has specific responsibilities during the 5-day pre-read window before each session.</div>
+  </div>
+  <div class="pipeline">
+    <div class="pipe-card">
+      <div class="pipe-num">1</div>
+      <h4>CoE Lead responsibilities</h4>
+      <p>Compile the review packet for each validated submission: submitter info, business justification, unit scope, current process description, expected outcome, initial ROI estimate, and a preliminary priority signal from the intake scoring logic.</p>
+      <div class="pipe-tags"><span class="pipe-tag">Review packet</span><span class="pipe-tag">Pre-screening</span><span class="pipe-tag">Scoring signal</span></div>
+    </div>
+    <div class="pipe-card">
+      <div class="pipe-num">2</div>
+      <h4>Board member responsibilities</h4>
+      <p>Read all distributed packets before the session. Arrive with questions prepared, concerns documented, and a preliminary assessment from your functional lens. The goal is to reduce in-session review time and increase decision quality per submission.</p>
+      <div class="pipe-tags"><span class="pipe-tag">Pre-read required</span><span class="pipe-tag">Questions prepared</span><span class="pipe-tag">Lens assessed</span></div>
+    </div>
+    <div class="pipe-card">
+      <div class="pipe-num">3</div>
+      <h4>Submitter responsibilities</h4>
+      <p>Submitters are not present during the board session. However, the CoE may reach out before the session to clarify scope, confirm ROI assumptions, or request additional supporting information identified during packet assembly.</p>
+      <div class="pipe-tags"><span class="pipe-tag">On-call for clarification</span><span class="pipe-tag">Docs complete</span><span class="pipe-tag">Sponsor confirmed</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Meeting structure</div>
+    <div class="section-title">Standard 90-minute session agenda</div>
+    <div class="section-desc">Every IBR session follows the same time-boxed structure. Adherence to the agenda ensures consistent decision quality and prevents any single submission from consuming disproportionate time.</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div class="agenda-grid">
+      <div class="agenda-item">
+        <div class="agenda-time"><div class="mins">10</div><div class="unit">min</div></div>
+        <div class="agenda-body">
+          <h4>Capacity check &amp; cycle open</h4>
+          <p>Review available resources across CoE lane, squads, and T3 architecture track. Set context for how many initiatives can realistically be approved this cycle.</p>
+          <div class="agenda-tags"><span class="agenda-tag">Capacity snapshot</span><span class="agenda-tag">Queue review</span></div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-time"><div class="mins">10</div><div class="unit">min</div></div>
+        <div class="agenda-body">
+          <h4>Open questions &amp; carryovers</h4>
+          <p>Address decisions deferred from the prior cycle, async votes requiring resolution, or Redirected submissions that have returned with updates.</p>
+          <div class="agenda-tags"><span class="agenda-tag">Carryovers</span><span class="agenda-tag">Async resolutions</span></div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-time"><div class="mins">50</div><div class="unit">min</div></div>
+        <div class="agenda-body">
+          <h4>Submission review</h4>
+          <p>Each validated submission receives structured review time (~10 min/item). CoE Lead presents packet summary; board members raise concerns by lens; group reaches a decision outcome.</p>
+          <div class="agenda-tags"><span class="agenda-tag">~10 min/submission</span><span class="agenda-tag">Per-lens discussion</span><span class="agenda-tag">Decision recorded</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="agenda-grid">
+      <div class="agenda-item">
+        <div class="agenda-time"><div class="mins">15</div><div class="unit">min</div></div>
+        <div class="agenda-body">
+          <h4>Resource allocation</h4>
+          <p>For all approved initiatives, the board confirms resource assignment: CoE coaching, Squad A or B, or T3 architecture lane. Capacity conflicts are resolved before commitments are communicated.</p>
+          <div class="agenda-tags"><span class="agenda-tag">Squad assignment</span><span class="agenda-tag">Start date set</span><span class="agenda-tag">Owner confirmed</span></div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-time"><div class="mins">5</div><div class="unit">min</div></div>
+        <div class="agenda-body">
+          <h4>Escalations &amp; cycle close</h4>
+          <p>Flag Tier 3 decisions requiring Steering Committee involvement. Record action items and confirm CoE will communicate outcomes within 5 business days.</p>
+          <div class="agenda-tags"><span class="agenda-tag">T3 escalations</span><span class="agenda-tag">Action items</span><span class="agenda-tag">Next session date</span></div>
+        </div>
+      </div>
+      <div class="card" style="border-color:var(--line)">
+        <div class="section-kicker" style="font-size:.7rem;margin-bottom:10px">Session logistics</div>
+        <div class="cd-row"><span class="cd-label">Frequency</span><span class="cd-val">Once per month, same week each month</span></div>
+        <div class="cd-row"><span class="cd-label">Duration</span><span class="cd-val">90 minutes, no extensions by default</span></div>
+        <div class="cd-row"><span class="cd-label">Pre-read</span><span class="cd-val">Packets distributed 5 business days prior</span></div>
+        <div class="cd-row"><span class="cd-label">Format</span><span class="cd-val">Virtual or hybrid; recording optional</span></div>
+        <div class="cd-row"><span class="cd-label">Quorum</span><span class="cd-val">5 of 7 core members for binding decisions</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Decision framework</div>
+    <div class="section-title">Four possible outcomes for every submission</div>
+    <div class="section-desc">Every submission reviewed by the board receives one of four structured outcomes. The outcome determines what happens next for the submitter, the delivery team, and the portfolio.</div>
+  </div>
+  <div class="outcomes-grid">
+    <div class="outcome-card oc-approve">
+      <div class="outcome-icon">✅</div>
+      <h4>Approved</h4>
+      <p>The initiative meets the scoring threshold, fits within available capacity, and has been classified into a delivery tier. CoE assigns a delivery team or coach and sets a start date.</p>
+      <div class="outcome-action">→ CoE assigns team · Start date confirmed · Submitter notified</div>
+    </div>
+    <div class="outcome-card oc-queue">
+      <div class="outcome-icon">🕐</div>
+      <h4>Queued</h4>
+      <p>The initiative is approved in principle but cannot start immediately due to capacity constraints. It retains its score and position and moves to the top of the queue for the next cycle.</p>
+      <div class="outcome-action">→ Score retained · No resubmission needed · Next cycle priority</div>
+    </div>
+    <div class="outcome-card oc-redirect">
+      <div class="outcome-icon">🔄</div>
+      <h4>Redirected</h4>
+      <p>The initiative has merit but was submitted on the wrong path. Common redirects: a Tier 3 submission that should be reframed as a Tier 1 POC first, or a request belonging to a different program.</p>
+      <div class="outcome-action">→ Specific guidance provided · Resubmission encouraged</div>
+    </div>
+    <div class="outcome-card oc-close">
+      <div class="outcome-icon">🚫</div>
+      <h4>Closed</h4>
+      <p>The initiative does not meet the minimum scoring threshold, has a compliance blocker, lacks a clear business case, or duplicates in-progress work. Closed items receive specific rationale and may be resubmitted.</p>
+      <div class="outcome-action">→ Detailed rationale · Improvement path · Resubmission possible</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Feedback &amp; communication</div>
+    <div class="section-title">How the board communicates its decisions</div>
+    <div class="section-desc">Every submitter receives structured feedback regardless of outcome. Transparency builds trust in the process and raises the quality of future submissions.</div>
+  </div>
+  <div class="feedback-grid">
+    <div class="fb-card">
+      <div class="fb-num">1</div>
+      <h4>Decision notice</h4>
+      <p>The CoE sends a structured decision notice to each submitter within 5 business days of the board session. The notice includes the outcome, assigned tier (if approved), and the delivery contact or CoE coach name.</p>
+      <div class="fb-sla">SLA: 5 business days after session</div>
+    </div>
+    <div class="fb-card">
+      <div class="fb-num">2</div>
+      <h4>Score breakdown</h4>
+      <p>For all outcomes, the submitter receives a summary showing how the submission scored by dimension — revealing exactly where it performed well and where it fell short, with concrete guidance for resubmission or reframing.</p>
+      <div class="fb-sla">Included with all decision notices</div>
+    </div>
+    <div class="fb-card">
+      <div class="fb-num">3</div>
+      <h4>Improvement recommendations</h4>
+      <p>Closed submissions receive specific improvement recommendations: which criteria to address, what additional information would strengthen the case, and whether resubmission makes sense in the next cycle. The goal is improvement, not rejection.</p>
+      <div class="fb-sla">Required for all Closed outcomes</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="section-kicker">Accountability matrix</div>
+    <div class="section-title">RACI — who owns what</div>
+    <div class="section-desc">Clear accountability for every activity across the four IBR stakeholder groups.</div>
+  </div>
+  <div class="card raci-wrap" style="padding:0;border-radius:20px;overflow:auto">
+    <table>
+      <thead>
+        <tr><th>Activity</th><th>CoE Lead</th><th>Board Members</th><th>Submitter</th><th>Steering Committee</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Intake triage &amp; packet assembly</td><td><span class="rb rb-r">R</span><span class="rb rb-a">A</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td>Pre-read distribution</td><td><span class="rb rb-r">R</span><span class="rb rb-a">A</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td>Reviewing submissions by functional lens</td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-r">R</span><span class="rb rb-a">A</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td>Tier 1 approval</td><td><span class="rb rb-a">A</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td>Tier 2 approval</td><td><span class="rb rb-r">R</span></td><td><span class="rb rb-a">A</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td>Tier 3 escalation &amp; approval</td><td><span class="rb rb-r">R</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-a">A</span></td></tr>
+        <tr><td>Resource pool assignment</td><td><span class="rb rb-a">A</span></td><td><span class="rb rb-r">R</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-c">C</span></td></tr>
+        <tr><td>Feedback notices to submitters</td><td><span class="rb rb-r">R</span><span class="rb rb-a">A</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td>Portfolio status reporting</td><td><span class="rb rb-r">R</span></td><td><span class="rb rb-a">A</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td>SteerCo escalation report</td><td><span class="rb rb-r">R</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-a">A</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center">
+    <span style="font-size:.82rem;color:var(--muted)">Legend:</span>
+    <span class="rb rb-r">R</span><span style="font-size:.82rem;color:var(--muted)">Responsible &nbsp;</span>
+    <span class="rb rb-a">A</span><span style="font-size:.82rem;color:var(--muted)">Accountable &nbsp;</span>
+    <span class="rb rb-c">C</span><span style="font-size:.82rem;color:var(--muted)">Consulted &nbsp;</span>
+    <span class="rb rb-i">I</span><span style="font-size:.82rem;color:var(--muted)">Informed</span>
+  </div>
+</section>
+
+<p class="footer-note">Innovation Board Review · Phase 3 — Solution Alignment · NAPS AI Strategy · North American Product Supply</p>
+</body>
+</html>
